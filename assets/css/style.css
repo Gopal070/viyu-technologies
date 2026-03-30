@@ -1,0 +1,2681 @@
+ css
+:root{
+  /* Primary (soft teal) */
+  --primary:#1ba6a6;          /* CTA / links */
+  --primary-soft:#e6f7f7;     /* very light teal bg */
+
+  /* Secondary accent (peach) */
+  --accent:#ff8a5c;
+  --accent-soft:#ffe9df;
+
+  /* Neutrals */
+  --dark:#1f2933;
+  --grey:#67728a;
+  --light:#f8fafc;
+
+  --border:#e2e8f0;
+  --muted-bg:#f5f5f5;
+}
+
+/* ---------- Base ---------- */
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+body{
+  font-family:"Inter",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--dark);
+  margin:0;
+
+  /* NEW: global animated gradient background */
+  background:linear-gradient(135deg,lch(100% 0.01 296.81),#eeeef4);
+  background-attachment:fixed;
+  background-size:200% 200%;
+  animation:siteBgLoop 30s ease-in-out infinite;
+}
+
+/* Only services page: global background colour loop */
+/* Services page: full-screen blurred background slideshow */
+.services-page{
+  position:relative;
+  min-height:100vh;
+  background:#020617;              /* fallback solid */
+  overflow-x:hidden;
+}
+
+/* Slideshow layer */
+.services-page::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  transform:scale(1.05);              /* blur edges hide */
+  background-color: hsl(80, 12%, 95%);
+}
+
+a{
+  text-decoration:none;
+}
+a:hover{
+  color:var(--primary);
+}
+
+/* Centered layout */
+
+.container{
+  max-width:1140px;
+}
+
+/* ---------- Navbar ---------- */
+
+
+/* Quick links bar styling */
+.quick-links-bar {
+  background: #ffffff;
+  border-bottom: 1px solid #e9ecef;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  z-index: 1020; /* stay above most elements */
+}
+
+/* Base link style */
+.quick-links-bar a {
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #6c757d;
+  text-decoration: none;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+/* Hover effect */
+.quick-links-bar a:hover {
+  background: linear-gradient(135deg, #e3070f, #aaef07);
+  color: #bc1313;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(13,110,253,0.2);
+  border-color: transparent;
+}
+
+/* Active state (current section) – exactly same as hover */
+.quick-links-bar a.active {
+  background: linear-gradient(135deg, #0da1fd69, #0aca547b);
+  color: #e40505;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(13,110,253,0.2);
+  border-color: transparent;
+  font-weight: 600;
+}
+
+/* Mobile view adjustments */
+@media (max-width: 768px) {
+  .quick-links-bar a {
+    padding: 4px 8px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Navbar links hover effect */
+.navbar-nav .nav-link {
+  position: relative;
+  transition: all 0.3s ease;
+  padding: 8px 12px !important;
+  margin: 0 2px;
+}
+
+/* Underline hover effect (elegant) */
+.navbar-nav .nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: #0d6efd;  /* aapka primary color */
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.navbar-nav .nav-link:hover::after {
+  width: 80%;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #0d6efd !important;  /* text color change */
+  background-color: rgba(13, 110, 253, 0.05);  /* very light background */
+  border-radius: 4px;
+}
+
+/* Active link (current page) */
+.navbar-nav .nav-link.active {
+  color: #0d6efd !important;
+  font-weight: 600;
+}
+
+.navbar-nav .nav-link.active::after {
+  width: 80%;
+  background: #0d6efd;
+}
+
+/* Call & WhatsApp buttons hover */
+.btn-outline-dark:hover {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Mobile view adjustments */
+@media (max-width: 991px) {
+  .navbar-nav .nav-link {
+    padding: 10px 15px !important;
+  }
+  
+  .navbar-nav .nav-link::after {
+    display: none;  /* mobile me underline hata sakte ho */
+  }
+  
+  .navbar-nav .nav-link:hover {
+    background-color: #f0f0f0;
+  }
+}
+
+.navbar{
+  box-shadow:0 1px 3px rgba(15,23,42,0.06);
+  background:#be0c0c;
+}
+
+.nav-link{
+  font-weight:500;
+  color:var(--grey) !important;
+  transition:color 0.15s ease;
+}
+.nav-link:hover,
+.nav-link.active{
+  color:var(--primary) !important;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn-primary-custom{
+  background:var(--primary);
+  border-color:var(--primary);
+  color:#06cff3;
+  font-weight:500;
+  font-size:0.85rem;
+  padding:0.4rem 0.9rem;
+  border-radius:999px;
+}
+.btn-primary-custom:hover{
+  background:#ddaaec;
+  color:var(--primary);
+  border-color:var(--primary);
+}
+
+.btn-outline-custom{
+  border-color:var(--primary);
+  color:var(--primary);
+  font-weight:500;
+  background:#3dd5f0;
+  font-size:0.85rem;
+  padding:0.4rem 0.9rem;
+  border-radius:999px;
+}
+.btn-outline-custom:hover{
+  background:var(--primary);
+  color:#0b0000;
+}
+
+/* ---------- Hero (old simple hero, inner pages) ---------- */
+
+.hero{
+  padding:96px 0 72px;
+  background:linear-gradient(135deg,#ffffff 0%,#e6f7f7 35%,#f5f5ff 100%);
+  color:#0f172a;
+}
+.hero-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:4px 12px;
+  border-radius:999px;
+  background:rgba(15,23,42,0.75);
+  border:1px solid rgba(148,163,184,0.4);
+  font-size:0.82rem;
+}
+.hero-title{
+  font-size:2.6rem;
+  font-weight:700;
+}
+.hero-subtext{
+  color:#6b7280;
+}
+
+
+/* ---------- Page hero (inner pages) ---------- */
+
+.page-hero{
+  position:relative;
+  padding:72px 0 48px;
+  color:#e5e7eb;
+  overflow:hidden;
+
+  /* animated gradient background */
+  background:linear-gradient(120deg,#0f172a,#111827,#020617,#0b1120);
+  background-size:300% 300%;
+  animation:aboutHeroBgShift 2s ease-in-out infinite;
+}
+
+/* optional: if glows bhi rakhe hain to woh code as-is rehne de */
+
+@keyframes aboutHeroBgShift{
+  0%{
+    background-position:0% 50%;
+  }
+  33%{
+    background-position:50% 50%;
+  }
+  66%{
+    background-position:100% 50%;
+  }
+  100%{
+    background-position:0% 50%;
+  }
+}
+
+
+/* Subtle animated glows behind content */
+.page-hero::before,
+.page-hero::after{
+  content:"";
+  position:absolute;
+  width:420px;
+  height:420px;
+  border-radius:999px;
+  filter:blur(40px);
+  opacity:0.55;
+  pointer-events:none;
+  mix-blend-mode:screen;
+}
+
+/* Left teal glow */
+.page-hero::before{
+  background:radial-gradient(circle at 30% 30%, rgba(27,166,166,0.7), transparent 60%);
+  top:-120px;
+  left:-120px;
+  animation:aboutHeroGlowLeft 16s ease-in-out infinite alternate;
+}
+
+/* Right accent glow */
+.page-hero::after{
+  background:radial-gradient(circle at 70% 40%, rgba(255,138,92,0.7), transparent 60%);
+  bottom:-160px;
+  right:-140px;
+  animation:aboutHeroGlowRight 18s ease-in-out infinite alternate;
+}
+
+@keyframes aboutHeroGlowLeft{
+  0%{ transform:translate3d(0,0,0) scale(1); }
+  50%{ transform:translate3d(40px,20px,0) scale(1.05); }
+  100%{ transform:translate3d(-20px,-10px,0) scale(1.03); }
+}
+
+@keyframes aboutHeroGlowRight{
+  0%{ transform:translate3d(0,0,0) scale(1); }
+  50%{ transform:translate3d(-30px,-10px,0) scale(1.06); }
+  100%{ transform:translate3d(20px,20px,0) scale(1.02); }
+}
+
+.page-hero h1{
+  font-size:2rem;
+  font-weight:600;
+}
+
+.page-hero p{
+  font-size:0.95rem;
+  color:#d1d5db; /* thoda soft grey for better contrast */
+}
+
+/* About hero background image slider */
+.about-hero-bg{
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  overflow:hidden;
+}
+
+.about-hero-bg-img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition:opacity 1.4s ease-in-out;
+  filter:blur(3px) brightness(0.7);
+}
+
+/* Jo active hogi wahi dikhni chahiye */
+.about-hero-bg-img.is-active{
+  opacity:1;
+}
+
+/* Heading + subtitle coloured strip (single colour) */
+.section-title-strip{
+  position:relative;
+  display:inline-block;
+  padding:6px 12px 8px;
+  margin-bottom:10px;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.section-title-strip::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  background:#0f172a;            /* yahan apna single colour choose karo */
+  opacity:0.94;
+}
+
+.section-title-strip .section-title{
+  position:relative;
+  z-index:1;
+  color:#f9fafb;
+  margin:0 0 2px;
+}
+
+.section-title-strip .section-subtitle{
+  position:relative;
+  z-index:1;
+  color:#e5e7eb;
+  max-width:none;
+  font-size:0.9rem;
+  margin:0;
+}
+
+/* content on top */
+.services-page .service-card { 
+    position: relative; 
+    overflow: hidden; 
+    background: 
+    linear-gradient(135deg, #bde0fe 50%, #f1ffa0fa 50%);
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 15px 35px rgba(165, 243, 252, 0.3);
+    transition: all 0.4s ease;
+    border: 1px solid rgba(255,255,255,0.5);
+}
+
+.services-page .service-card:hover {
+    transform: translateY(-15px) scale(1.03);
+    box-shadow: 0 30px 60px rgba(180, 248, 200, 0.4);
+    background: linear-gradient(135deg, #93e7f8 0%, #a7f3d0 50%, #bfdbfe 100%);
+}
+
+ 
+
+.services-page .service-card h5 {  
+  font-size: 1.2rem !important; /* Bade titles */  
+  font-weight: 700;  
+  margin-bottom: 0.5rem;  
+  line-height: 1.3;  
+}  
+
+.services-page .service-card p.small {  
+  font-size: 0.88rem !important; /* Perfect small text */  
+  font-weight: 500;  
+  line-height: 1.5;  
+  color: hsl(0, 0%, 5%) !important; /* Medium grey */  
+}  
+
+.services-page .service-card ul.small li {  
+  font-size: 0.86rem !important;  
+  font-weight: 500;  
+  color: hsl(0, 0%, 5%) !important;  
+  line-height: 1.4;  
+  margin-bottom: 0.2rem;  
+}  
+
+.services-page .service-card .icon-pill {  
+  background: rgba(223, 238, 233, 0.9) !important;  
+  border: 1px solid rgba(255,255,255,0.6);  
+  font-size: 1.3rem !important; /* Bada icon */  
+}  
+
+.services-page .service-card .btn-primary-custom {  
+  font-size: 0.82rem !important;  
+  font-weight: 600;  
+  padding: 0.45rem 1rem !important;  
+}  
+
+.services-page .service-card::before {  
+  content: "";  
+  position: absolute;  
+  inset: 0;  
+  z-index: 0;  
+  background:  
+    linear-gradient(135deg, rgba(15,23,42,0.7), rgba(15,23,42,0.4)),  
+    var(--service-bg-img, none); /* Default none */  
+  background-position: center;  
+  background-size: cover;  
+}  
+
+
+.service-card > *{
+  position:relative;
+    z-index:1;
+
+}
+
+
+/* ---------- Generic sections ---------- */
+.section-padding{
+  padding:56px 0;
+}
+.section-title{
+  font-size:2rem;
+  font-weight:700;
+  margin-bottom:0.5rem;
+}
+.section-subtitle{
+  color:var(--grey);
+  max-width:640px;
+  font-size:0.95rem;
+}
+
+/* Small section label (kicker) */
+
+.section-kicker{
+  font-size:0.75rem;
+  text-transform:uppercase;
+  letter-spacing:0.12em;
+  color:#9ca3af;
+  margin-bottom:0.25rem;
+}
+
+/* Soft backgrounds */
+
+.section-soft{
+  background:#f3f4f6;
+}
+.section-soft-alt{
+  background:var(--muted-bg);
+}
+
+/* ---------- Quick-links bar ---------- */
+
+.quick-links-bar{
+  z-index:1010;
+  font-size:0.85rem;
+  background:#ffffff;
+}
+
+/* base state */
+.quick-links-bar a{
+  position:relative;
+  color:#6b7280;
+  padding:4px 10px;
+  border-radius:999px;
+  transition:
+    color .18s ease,
+    background-color .18s ease,
+    box-shadow .18s ease;
+}
+
+/* hover effect */
+.quick-links-bar a:hover{
+  color:#0f172a;
+  background:rgba(27,166,166,0.08);
+  box-shadow:0 3px 10px rgba(15,23,42,0.08);
+}
+
+/* underline swipe */
+.quick-links-bar a::after{
+  content:"";
+  position:absolute;
+  left:12px;
+  right:12px;
+  bottom:0;
+  height:2px;
+  border-radius:999px;
+  background:linear-gradient(90deg,#1ba6a6,#0ea5e9);
+  transform:scaleX(0);
+  transform-origin:left;
+  opacity:0;
+  transition:transform .2s ease, opacity .2s ease;
+}
+
+.quick-links-bar a:hover::after{
+  transform:scaleX(1);
+  opacity:1;
+}
+
+/* active state (current section link) */
+.quick-link.active{
+  color:var(--primary) !important;
+  font-weight:600;
+  background:rgba(27,166,166,0.12);
+}
+.quick-link.active::after{
+  transform:scaleX(1);
+  opacity:1;
+}
+
+/* ---------- Icon pill ---------- */
+
+.icon-pill{
+  width:44px;
+  height:44px;
+  border-radius:999px;
+  background:var(--primary-soft);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--primary);
+  font-size:1.2rem;
+}
+
+/* ---------- Core Services: cards ---------- */
+
+.service-card,
+.feature-card,
+.solution-card{
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:20px;
+  background:#ffffff;
+  transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+  height:100%;
+  cursor:default;
+  box-shadow:0 12px 30px rgba(15,23,42,0.06);
+}
+
+/* Base service card */
+.service-card{
+  position:relative;
+  overflow:hidden;
+}
+
+/* CCTV – blue tint + image clear */
+.service-card-cctv{
+  position:relative; /* important: parent ko relative karo */
+  overflow:hidden;   /* extra image bahar na dikhe */
+}
+
+.service-card-cctv::before{
+  content:"";
+  position:absolute;
+  inset:0; /* top/right/bottom/left sab 0 => full card */
+  width:100%;
+  height:100%;
+  background:
+    radial-gradient(circle at top right,
+      rgba(37,99,235,0.08) 0,
+      rgba(255,255,255,0.65) 50%),
+    url("../images/CAMERA.jpg") center/cover no-repeat;
+  opacity:0.7;
+  pointer-events:none;
+  filter:brightness(1); /* blur hata diya; chahiye ho to blur(4px) likho */
+}
+
+
+/* Fire – warm tint full background */
+.service-card-fire::before{
+  content:"";
+  position:absolute;
+  inset:0; /* top/right/bottom/left sab 0 => full card cover */
+  width:100%;
+  height:100%;
+  background:
+    radial-gradient(circle at top left,
+      rgba(248,113,113,0.12) 0,
+      rgba(255,255,255,0.75) 50%),
+    url("../images/FIRE\ 3.jpg") center/cover no-repeat;
+  opacity:0.8;
+  pointer-events:none;
+  filter:brightness(1);
+   
+}
+
+
+/* Access – cool tint full background */
+.service-card-access::before{
+  content:"";
+  position:absolute;
+  inset:0; /* poora card cover karega */
+  width:100%;
+  height:100%;
+  background:
+    radial-gradient(circle at bottom right,
+      rgba(87,27,227,0.12) 0,
+      rgba(255,255,255,0.75) 50%),
+    url("../images/biometric.jpg") center/cover no-repeat;
+  opacity:0.8;
+  pointer-events:none;
+  filter:brightness(1);
+}
+
+
+/* Home – teal tint full background */
+.service-card-home::before{
+  content:"";
+  position:absolute;
+  inset:0; /* sab side 0 => poora card cover */
+  width:100%;
+  height:100%;
+  background:
+    radial-gradient(circle at top right,
+      rgba(45,212,191,0.12) 0,
+      rgba(255,255,255,0.75) 50%),
+    url("../images/SMART\ HOME\ 3.webp") center/cover no-repeat;
+  opacity:0.8;
+  pointer-events:none;
+  filter:brightness(1);
+}
+
+
+/* Network – blue tint full background */
+.service-card-network::before{
+  content:"";
+  position:absolute;
+  inset:0;                  /* poora card cover kare */
+  width:100%;
+  height:100%;
+  background:
+    radial-gradient(circle at top left,
+      rgba(56,189,248,0.12) 0,
+      rgba(255,255,255,0.75) 50%),
+    url("../images/WIFI\ 2.jpg") center/cover no-repeat;
+  opacity:0.8;
+  pointer-events:none;
+  filter: brightness(1);
+}
+
+
+/* AMC – neutral tint full background */
+.service-card-amc::before{
+  content:"";
+  position:absolute;
+  inset:0; /* poora card cover */
+  width:100%;
+  height:100%;
+  background:
+    radial-gradient(circle at bottom right,
+      rgb(207, 229, 10) 0,
+      rgba(255,255,255,0.75) 50%),
+    url("../images/MAINTAINENCE\ 2.webp") center/cover no-repeat;
+  opacity:0.8;
+  pointer-events:none;
+  filter:brightness(1);
+}
+
+
+/* Service card inner content */
+.service-card-inner{
+  position:relative;
+  z-index:1;
+}
+
+/* Card headings: CCTV, Fire, etc. */
+.service-card h3{
+  font-size:1.5rem;
+  font-weight:700;
+  color:#fa0404;
+  margin-bottom:0.35rem;
+}
+
+/* Card body text + bullets */
+.service-card p,
+.service-card li{
+  font-size:1rem;
+  font-weight:700;
+  color:#111827;
+}
+
+/* text-muted ko bhi dark dikhane ke liye */
+.service-card p.small,
+.service-card ul.small{
+  color:#111827 !important;
+}
+
+/* Service card top thumbnails (agar use kare) */
+.service-thumb{
+  height:110px;
+  border-radius:14px;
+  margin-bottom:12px;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+.service-thumb-cctv{
+  background-image:url("../images/biometric.jpg.jpeg");
+}
+
+/* Hover effect */
+.service-card:hover,
+.feature-card:hover,
+.solution-card:hover{
+  box-shadow:0 18px 45px rgba(15,23,42,0.12);
+  transform:translateY(-4px);
+  border-color:#bfdbfe;
+}
+
+/* ---------- Product meta strip ---------- */
+
+.product-meta{
+  font-size:0.75rem;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  color:#6b7280;
+  margin-bottom:4px;
+}
+
+/* ---------- Badges ---------- */
+
+.badge-soft{
+  padding:3px 10px;
+  border-radius:999px;
+  background:var(--primary-soft);
+  color:var(--primary);
+  font-size:0.78rem;
+}
+.badge-soft.is-active{
+  background:var(--primary);
+  color:#ffffff;
+}
+
+/* View-all link pill */
+
+.view-all-link{
+  display:inline-block;
+  margin-top:4px;
+  padding:6px 14px;
+  border-radius:999px;
+  background:#e0f2ff;
+  color:#0369a1;
+  font-weight:500;
+  text-decoration:none;
+  border:1px solid rgba(148,163,184,0.4);
+  font-size:0.78rem;
+}
+.view-all-link:hover{
+  background:#0369a1;
+  color:#ffffff;
+  border-color:#0369a1;
+}
+
+/* ---------- Sections with soft bg for product groups ---------- */
+
+.section-solutions{
+  background:var(--muted-bg);
+}
+
+/* Product.html IDs */
+
+#cctv,
+#biometric,
+#gps,
+#boom-tyre,
+#smart-digital,
+#signal-network{
+  background:var(--muted-bg);
+}
+
+#fire,
+#pa,
+#it,
+#bollards-gate,
+#intercom-epabx{
+  background:#ffffff;
+}
+
+/* ---------- Sticky CTA (bottom) ---------- */
+
+.cctv-sticky-cta{
+  position:fixed;
+  bottom:14px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#0f172a;
+  color:#e5e7eb;
+  padding:6px 14px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  z-index:1030;
+  box-shadow:0 10px 30px rgba(15,23,42,0.35);
+  font-size:0.8rem;
+}
+.cctv-sticky-cta .btn{
+  padding:4px 12px;
+  font-size:0.8rem;
+  margin-left:0.5rem;
+}
+
+/* ---------- Contact page ---------- */
+
+.contact-box{
+  border-radius:18px;
+  border:1px solid var(--border);
+  padding:20px;
+  background:#ffffff;
+}
+.contact-box h5{
+  font-size:1.05rem;
+}
+.form-label{
+  font-size:0.85rem;
+  font-weight:600;
+  color:#6b7280;
+}
+.contact-box .form-control,
+.contact-box .form-select{
+  border-radius:0.55rem;
+  border-color:#e5e7eb;
+  font-size:0.9rem;
+}
+.contact-box .form-control:focus,
+.contact-box .form-select:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 0.14rem rgba(27,166,166,0.2);
+}
+small.text-muted{
+  font-size:0.78rem;
+}
+
+/* ---------- Testimonial ---------- */
+
+.testimonial-card{
+  border-radius:16px;
+  padding:20px;
+  background:#0f172a;
+  color:#e5e7eb;
+  border:1px solid #1f2937;
+}
+
+/* ---------- Footer ---------- */
+
+.footer{
+  background:#020617;
+  color:#9ca3af;
+  padding:32px 0 16px;
+  font-size:0.85rem;
+}
+.footer a{
+  color:#d1d5db;
+  font-size:0.9rem;
+}
+.footer a:hover{
+  color:#ffffff;
+}
+.footer .badge-soft{
+  background:rgba(148,163,184,0.18);
+  color:#e5e7eb;
+}
+
+/* ---------- Scroll offset for anchor sections ---------- */
+
+.scroll-offset{
+  scroll-margin-top:120px;
+}
+
+/* ---------- Responsive tweaks ---------- */
+
+@media (max-width:767.98px){
+  .hero{
+    padding:80px 0 56px;
+  }
+  .hero-title{
+    font-size:2.1rem;
+  }
+  .page-hero{
+    padding:56px 0 36px;
+  }
+}
+@media (max-width:575.98px){
+  .service-card,
+  .solution-card{
+    padding:16px;
+  }
+  .section-title{
+    font-size:1.6rem;
+  }
+  .section-padding{
+    padding:40px 0;
+  }
+}
+
+/* ---------- New hero-modern (home hero) ---------- */
+
+.hero-modern{
+  position:relative;
+  min-height:100vh;
+  background:
+    linear-gradient(to right, rgba(15,23,42,0.9), rgba(15,23,42,0.5)),
+    url("../images/walkietalki.jpeg") center/cover no-repeat;
+  color:#f9fafb;
+  transition:background-image 1s ease-in-out;
+}
+
+.hero-title{
+  font-size:2.4rem;
+  font-weight:700;
+  letter-spacing:0.01em;
+}
+.hero-product-img{
+    max-height:480px;
+ 
+  border-radius:5%;       /* circle */
+  object-fit:cover;         /* image nicely fill kare */
+
+  filter:drop-shadow(0 20px 40px rgba(15,23,42,0.65));
+}
+
+
+.hero-product-panel{
+  position:relative;
+  border-radius:18px;
+  padding:24px 22px 22px;
+  overflow:hidden;
+  z-index:0;
+
+  /* animated dark gradient background */
+  background:linear-gradient(120deg,#020617,#f30717,#111827,#020617);
+  background-size:300% 300%;
+  animation:heroPanelBgShift 18s ease-in-out infinite;
+}
+
+/* static subtle border */
+.hero-product-panel::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  padding:2px;
+  background:linear-gradient(120deg,#22c55e,#0ea5e9,#facc15);
+  opacity:0;
+  transition:opacity .4s ease;
+  z-index:-1;
+}
+
+/* inner background so content ka bg solid rahe */
+.hero-product-panel::after{
+  content:"";
+  position:absolute;
+  inset:3px;
+  border-radius:inherit;
+  background:rgba(15,23,42,0.98);
+  z-index:-1;
+}
+
+/* hover pe gradient border animate */
+.hero-product-panel:hover::before{
+  opacity:1;
+  animation:heroBorderSpin 4s linear infinite;
+}
+
+/* panel ka piche wala dark bg move kare */
+@keyframes heroPanelBgShift{
+  0%{
+    background-position:0% 50%;
+  }
+  50%{
+    background-position:100% 50%;
+  }
+  100%{
+    background-position:0% 50%;
+  }
+}
+
+/* border gradient move kare */
+@keyframes heroBorderSpin{
+  0%{
+    background-position:0% 50%;
+  }
+  50%{
+    background-position:100% 50%;
+  }
+  100%{
+    background-position:0% 50%;
+  }
+}
+.hero-product-panel .text-muted{
+  color:hsl(0, 83%, 38%) !important;   /* dark grey */
+}
+
+
+.hero-subtitle{
+  font-size:1rem;
+  max-width:520px;
+}
+.btn-accent{
+  background:linear-gradient(135deg,#facc15,#eab308);
+  border:none;
+  color:#111827;
+  font-weight:600;
+}
+.btn-accent:hover{
+  background:linear-gradient(135deg,#decfa4,#ca8a04);
+  color:#1734c5;
+}
+.bg-accent-soft{
+  background:rgba(250,204,21,0.12);
+}
+.text-accent{
+  color:lab(88.84% -11.58 87.2);
+}
+.hero-side-card{
+  background:#0e0e0d;
+  border-radius:18px;
+  padding:24px 22px 22px;
+  position:relative;
+  color:#edeeef;              /* sab text light */
+
+}
+
+.hero-side-card p.small{
+  color:#d1d5db !important;
+}
+.hero-side-badge{
+  position:absolute;
+  top:16px;
+  right:18px;
+  font-size:.7rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  padding:4px 10px;
+  border-radius:999px;
+  background:rgba(34,197,94,0.12);
+  color:#22c55e;
+}
+.hero-side-card h3{
+  font-size:1.25rem;
+  color:#e5e7eb;
+}
+.hero-stats{
+  margin-top:18px;
+}
+.hero-stat-card{
+  background:rgba(15,23,42,0.7);
+  border-radius:12px;
+  padding:10px 12px;
+}
+.hero-stat-number{
+  font-size:1.1rem;
+  font-weight:600;
+}
+.hero-stat-label{
+  font-size:.8rem;
+  color:#9ca3af;
+}
+.hero-overlay-text{
+  position:absolute;
+  inset:auto 0 10px 50%;
+  transform:translateX(-50%);
+  font-size:0.7rem;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:rgba(148,163,184,0.45);
+  pointer-events:none;
+}
+.value-pill{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(31,41,55,0.8);
+  font-size:.8rem;
+  color:#e5e7eb;
+}
+@media (max-width:767.98px){
+  .hero-modern{
+    padding:80px 0 56px;
+  }
+  .hero-title{
+    font-size:1.9rem;
+  }
+}
+
+/* ---------- Core Services animated background ---------- */
+
+.services-area{
+  position:relative;
+  overflow:hidden;
+}
+.services-area::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(37,99,235,0.18) 0, transparent 55%),
+    radial-gradient(circle at 85% 10%, rgba(56,189,248,0.20) 0, transparent 55%),
+    radial-gradient(circle at 10% 100%, rgba(52,211,153,0.18) 0, transparent 55%);
+  opacity:1;
+  animation:servicesGlow 10s ease-in-out infinite alternate;
+  pointer-events:none;
+  z-index:0;
+}
+@keyframes servicesGlow{
+  0%{ transform:translate3d(0,0,0) scale(1); }
+  50%{ transform:translate3d(-20px,12px,0) scale(1.05); }
+  100%{ transform:translate3d(20px,-10px,0) scale(1.03); }
+}
+
+/* Image loop layer */
+.services-bg-loop{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  overflow:hidden;
+}
+.services-bg-img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition:opacity 1.2s ease-in-out;
+  filter:blur(2px) brightness(0.8);
+}
+.services-bg-img.is-active{
+  opacity:1;
+}
+
+/* Content upar rahe */
+.services-area .container{
+  position:relative;
+  z-index:1;
+}
+
+/* Services grid headings */
+
+.section-title{
+  font-size:1.7rem;
+  font-weight:600;
+}
+.section-subtitle{
+  font-size:.95rem;
+  color:#6b7280;
+}
+#home-services .section-title{
+  color:#f9fafb;
+}
+#home-services .section-subtitle{
+  color:#e5e7eb;
+}
+#home-services .btn-outline-primary{
+  border-color:#121111;
+  color:#bf2470;
+  font-size:1.5rem;
+}
+#home-services .btn-outline-primary:hover{
+  background:#e5e7eb;
+  color:#1751cf;
+  border-color:#0dd71a;
+}
+
+/* ---------- Industries section ---------- */
+
+#industries{
+  position:relative;
+  overflow:hidden;
+}
+#industries::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(27,166,166,0.12) 0, transparent 55%),
+    radial-gradient(circle at 90% 80%, rgba(255,138,92,0.12) 0, transparent 55%);
+  opacity:0.9;
+  animation:industriesGlow 12s ease-in-out infinite alternate;
+  pointer-events:none;
+  z-index:0;
+}
+#industries .container{
+  position:relative;
+  z-index:1;
+}
+
+#industries .service-card{
+  background:#ffffff;
+  border-radius:999px;
+  padding:14px 18px;
+  box-shadow:0 10px 30px rgba(15,23,42,0.06);
+  border:1px solid #e5e7eb;
+  transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease, background .22s ease;
+}
+#industries .service-card h6{
+  font-size:0.95rem;
+  font-weight:600;
+  color:#0f172a;
+  margin-bottom:4px;
+}
+#industries .service-card p{
+  font-size:0.8rem;
+  color:#6b7280;
+  margin-bottom:0;
+}
+#industries .service-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 16px 40px rgba(15,23,42,0.14);
+  border-color:#1ba6a6;
+  background:linear-gradient(135deg,#ecfeff,#f9fafb);
+}
+#industries .section-title{
+  font-size:1.5rem;
+  font-weight:600;
+}
+#industries .section-subtitle{
+  font-size:0.9rem;
+  color:#6b7280;
+}
+@keyframes industriesGlow{
+  0%{ transform:translate3d(0,0,0) scale(1); }
+  50%{ transform:translate3d(-15px,10px,0) scale(1.03); }
+  100%{ transform:translate3d(15px,-10px,0) scale(1.02); }
+}
+
+/* ---------- Enquiry section ---------- */
+
+#home-enquiry{
+  position:relative;
+  overflow:hidden;
+}
+#home-enquiry::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(27,166,166,0.12) 0, transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(255,138,92,0.10) 0, transparent 55%);
+  opacity:0.9;
+  animation:enquiryDrift 14s ease-in-out infinite alternate;
+  pointer-events:none;
+  z-index:0;
+}
+#home-enquiry .container{
+  position:relative;
+  z-index:1;
+}
+@keyframes enquiryDrift{
+  0%{ transform:translate3d(0,0,0) scale(1); }
+  50%{ transform:translate3d(10px,-8px,0) scale(1.02); }
+  100%{ transform:translate3d(-12px,6px,0) scale(1.03); }
+}
+
+#home-enquiry .section-title{
+  font-size:1.6rem;
+  font-weight:600;
+}
+#home-enquiry .section-subtitle{
+  font-size:0.9rem;
+  color:#6b7280;
+}
+
+/* Enquiry card */
+
+#home-enquiry .card{
+  border-radius:16px;
+  border:1px solid #e5e7eb;
+  box-shadow:0 12px 30px rgba(15,23,42,0.08);
+  overflow:hidden;
+  position:relative;
+}
+#home-enquiry .card::before{
+  content:"";
+  position:absolute;
+  inset:0 0 auto 0;
+  height:4px;
+  background:linear-gradient(90deg,#1ba6a6,#ff8a5c);
+}
+
+/* Inputs */
+
+#home-enquiry .form-label{
+  font-size:0.8rem;
+  font-weight:600;
+  color:#6b7280;
+}
+#home-enquiry .form-control{
+  font-size:0.85rem;
+  border-radius:0.55rem;
+}
+
+/* Submit button animation */
+
+#home-enquiry .btn-primary{
+  background:linear-gradient(135deg,#1ba6a6,#0f766e);
+  border:none;
+  transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+#home-enquiry .btn-primary:hover{
+  filter:brightness(1.05);
+  transform:translateY(-1px);
+  box-shadow:0 10px 25px rgba(15,23,42,0.25);
+}
+
+/* ---------- Utility animation classes ---------- */
+
+/* Fade-up on load */
+@keyframes fadeUpSoft{
+  0%{
+    opacity:0;
+    transform:translateY(16px);
+  }
+  100%{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* Slight float (continuous) */
+@keyframes floatSoft{
+  0%{ transform:translateY(0); }
+  50%{ transform:translateY(-6px); }
+  100%{ transform:translateY(0); }
+}
+
+/* Classes to reuse anywhere */
+.animate-fade-up{
+  opacity:0;
+  animation:fadeUpSoft 0.7s ease-out forwards;
+}
+
+.animate-fade-up-delayed{
+  opacity:0;
+  animation:fadeUpSoft 0.7s ease-out forwards;
+  animation-delay:0.25s;
+}
+
+.animate-float{
+  animation:floatSoft 6s ease-in-out infinite;
+}
+
+/* ---------- Utility animation classes ---------- */
+
+/* Fade-up on scroll / load */
+@keyframes fadeUpSoft{
+  0%{
+    opacity:0;
+    transform:translateY(18px);
+  }
+  100%{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* Slight continuous float */
+@keyframes floatSoft{
+  0%{ transform:translateY(0); }
+  50%{ transform:translateY(-6px); }
+  100%{ transform:translateY(0); }
+}
+
+/* Basic fade-up */
+.animate-fade-up{
+  opacity:0;
+  animation:fadeUpSoft .7s ease-out forwards;
+}
+
+/* Delay versions – bas class change karke use karo */
+.animate-fade-up-delay-sm{
+  opacity:0;
+  animation:fadeUpSoft .7s ease-out forwards;
+  animation-delay:.15s;
+}
+.animate-fade-up-delay-md{
+  opacity:0;
+  animation:fadeUpSoft .7s ease-out forwards;
+  animation-delay:.3s;
+}
+.animate-fade-up-delay-lg{
+  opacity:0;
+  animation:fadeUpSoft .7s ease-out forwards;
+  animation-delay:.45s;
+}
+
+/* Float utility */
+.animate-float{
+  animation:floatSoft 6s ease-in-out infinite;
+}
+
+/* Industries We Serve strip background animation */
+.industries-strip{
+  background-color:#020617;
+  color:#f9fafb;
+  animation: industriesBgCycle 4s ease-in-out infinite;
+}
+
+.industries-strip .text-muted{
+  color:#e5e7eb;
+}
+
+/* Light multi-color loop  */
+@keyframes industriesBgCycle{
+  0%{
+    background-color:#F6F0D7;
+  }
+  16%{
+    background-color:#C5D89D;   
+  }
+  32%{
+    background-color:#9CAB84
+;   /* slate */
+  }
+  48%{
+    background-color:#89986D;   
+  }
+  64%{
+    background-color:#022c22;   
+  }
+  80%{
+    background-color:#082f49;   
+  }
+  100%{
+    background-color:#020617;   
+  }
+}
+
+/* ---------- About page: hero tags ---------- */
+
+.about-hero-tag{
+  border-radius:999px;
+  padding:6px 14px;
+  background:rgba(15,23,42,0.8);
+  border:1px solid rgba(148,163,184,0.4);
+  font-size:0.8rem;
+  color:#e5e7eb;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  backdrop-filter:blur(12px);
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+}
+.about-hero-tag:hover{
+  transform:translateY(-1px);
+  box-shadow:0 10px 26px rgba(15,23,42,0.4);
+  border-color:rgba(27,166,166,0.9);
+  background:rgba(15,23,42,0.95);
+}
+
+/* ---------- About page: cards (right hero card + others) ---------- */
+
+.about-card{
+  transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+.about-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 16px 40px rgba(15,23,42,0.14);
+  border-color:rgba(27,166,166,0.65);
+}
+
+/* Hero side card override (glass + better text) */
+
+.hero-side-card{
+  background:rgba(15,15,15,0.94);
+  border-radius:18px;
+  padding:24px 22px 22px;
+  position:relative;
+  color:#edeeef;
+  border:1px solid rgba(148,163,184,0.35);
+  box-shadow:0 25px 70px rgba(15,23,42,0.8);
+  transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+.hero-side-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 30px 80px rgba(15,23,42,0.95);
+  border-color:rgba(27,166,166,0.8);
+}
+.hero-side-card h3{
+  font-size:1.25rem;
+  color:#e5e7eb;
+}
+.hero-side-card p.small,
+.hero-side-card .text-muted{
+  color:#e5e7eb !important;
+}
+.hero-side-card ul li{
+  color:#e5e7eb;
+  font-size:0.85rem;
+}
+
+/* ---------- About: founder avatar (Know Your Maalik) ---------- */
+
+/* Founder avatar (Know Your Maalik) */
+.about-founder-avatar{
+  position:relative;
+  border-radius:999px;
+  background:radial-gradient(circle at 30% 0%, rgba(27,166,166,0.45), transparent 60%);
+  padding:3px;
+  display:inline-block;
+}
+.about-founder-avatar-inner{
+  width:px;
+  height:350px;
+  border-radius:999px;
+  background:#f0f1f3;
+  overflow:hidden;
+}
+.about-founder-avatar::before{
+  content:"";
+  position:absolute;
+  inset:-6px;
+  border-radius:inherit;
+  border:1px dashed rgba(226, 15, 15, 0.7);
+  animation:aboutAvatarPulse 6s ease-in-out infinite;
+}
+
+@keyframes aboutAvatarPulse{
+  0%{ opacity:0.35; transform:scale(1); }
+  50%{ opacity:0.9;  transform:scale(1.05); }
+  100%{ opacity:0.35; transform:scale(1); }
+}
+
+/*founder*/
+
+
+
+
+/* How we work strip: animated background like founder */
+
+
+
+
+
+#about-process .contact-box:hover{
+  transform:translateY(-4px);
+  box-shadow:0 18px 45px rgba(15,23,42,0.16);
+  border-color:rgba(27,166,166,0.55);
+}
+
+
+/* ---------- About: soft animated strip (Ideal For + Key areas) ---------- */
+
+
+/* ---------- About hero: scroll indicator ---------- */
+
+.about-scroll-indicator{
+  position:absolute;
+  left:50%;
+  bottom:16px;
+  transform:translateX(-50%);
+  font-size:0.7rem;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:rgba(148,163,184,0.7);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+}
+.about-scroll-indicator span{
+  width:1px;
+  height:18px;
+  background:rgba(148,163,184,0.7);
+  border-radius:999px;
+  animation:scrollBar 1.2s ease-in-out infinite;
+}
+@keyframes scrollBar{
+  0%{ transform:translateY(0); opacity:0.4; }
+  50%{ transform:translateY(6px); opacity:1; }
+  100%{ transform:translateY(0); opacity:0.4; }
+}
+
+/* About fit section: stronger text */
+#about-fit .section-title{
+  font-weight:700;
+  color:#0f172a;
+}
+
+#about-fit .section-kicker{
+  font-weight:600;
+  color:#64748b;
+}
+
+#about-fit h3.h6{
+  font-weight:700;
+  color:#0f172a;
+}
+
+#about-fit p.small,
+#about-fit li{
+  font-weight:500;
+  color:#111827;
+}
+
+/* About-fit solution badges: hover impact */
+#about-fit .badge-soft{
+  display:block;
+  text-align:center;
+  padding:10px 14px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.85);
+  color:#0f172a;
+  font-weight:500;
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    background .18s ease,
+    color .18s ease,
+    border-color .18s ease;
+  border:1px solid rgba(148,163,184,0.4);
+}
+
+#about-fit .badge-soft:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 28px rgba(15,23,42,0.18);
+  background:linear-gradient(135deg,#1ba6a6,#0f766e);
+  color:#f9fafb;
+  border-color:rgba(27,166,166,0.9);
+}
+
+/* About testimonials: animated strip */
+
+
+/* ---------- Responsive tweak: inner hero ---------- */
+
+@media (max-width:767.98px){
+  .page-hero{
+    padding:56px 0 32px;
+  }
+  .page-hero h1{
+    font-size:1.8rem;
+  }
+}
+
+.about-overview-wrap{
+  position:relative;
+  overflow:hidden;
+}
+
+.about-section-bg{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  overflow:hidden;
+}
+
+.about-section-bg-img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition:opacity 1.4s ease-in-out;
+  filter:blur(2px) brightness(1);
+}
+
+/* Active image */
+.about-section-bg-img.is-active{
+  opacity:1;
+}*/
+
+/* White overlay so text stays clean like screenshot */
+/*.about-overview-wrap::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    135deg,
+    rgba(208, 191, 147, 0.7),
+    rgba(248,250,252,0.78)
+  );
+  z-index:1;
+}
+*/
+/* Final CTA heading animation */
+/*.cta-heading{
+  position:relative;
+  display:inline-block;
+  font-size:1.35rem;
+  font-weight:700;
+  background:linear-gradient(90deg,#0f172a,#2563eb); /* dark navy -> blue */
+  /*webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  opacity:0;
+  animation:ctaHeadingIn .8s ease-out forwards;
+}
+*/
+/* underline swipe */
+.cta-heading::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-4px;
+  height:3px;
+  width:100%;
+  background:linear-gradient(90deg,#2563eb,#38bdf8); /* blue -> cyan */
+  border-radius:999px;
+  transform-origin:left;
+  transform:scaleX(0);
+  animation:ctaUnderline .9s ease-out forwards;
+  animation-delay:.15s;
+}
+
+
+@keyframes ctaHeadingIn{
+  0%{ opacity:0; transform:translateY(12px); }
+  100%{ opacity:1; transform:translateY(0); }
+}
+
+@keyframes ctaUnderline{
+  0%{ transform:scaleX(0); opacity:0; }
+  60%{ transform:scaleX(1.05); opacity:1; }
+  100%{ transform:scaleX(1); opacity:1; }
+}
+
+
+/* Content above background */
+.about-overview-wrap .container{
+  position:relative;
+  z-index:2;
+  
+}
+
+/* About overview: stronger text */
+#about-overview h2.section-title{
+  font-weight:700;
+  color:#0f172a;            /* dark heading */
+  font-size:2.2rem;        /* heading thoda bada */
+  
+}
+
+#about-overview .section-kicker{
+  color:#64748b;
+  font-weight:600;
+  font-size:1rem;          /* default 0.95 se thoda bada */
+}
+
+#about-overview .section-subtitle{
+  color:oklch(43.955% 0.29749 265.082);
+  font-weight:500;
+    font-size:1rem;          /* default 0.95 se thoda bada */
+
+}
+
+#about-overview p{
+  color:#111827;
+  font-weight:500;
+    font-size:1rem;          /* default 0.95 se thoda bada */
+
+}
+
+#about-overview li{
+  color:#0a52ed;
+  font-weight:700;
+  font-size:1rem;          /* default 0.95 se thoda bada */
+
+}
+
+/* At a glance card – animated colour glow behind */
+
+.at-a-glance-card{
+  position:relative;
+  z-index:1;
+}
+
+/* Circle glow */
+.at-a-glance-card::before{
+  content:"";
+  position:absolute;
+  inset:-18px;                 /* card se thoda bahar ring */
+  border-radius:24px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(4, 124, 124, 0.493), transparent 55%),
+    radial-gradient(circle at 100% 100%, #af353582, transparent 55%);
+  opacity:0.75;
+  z-index:-1;
+  filter:blur(12px);
+  animation:atAGlow 14s ease-in-out infinite alternate;
+}
+
+/* Extra subtle outline */
+.at-a-glance-card::after{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius:24px;
+  border:1px solid rgba(148,163,184,0.45);
+  z-index:-1;
+  pointer-events:none;
+}
+
+@keyframes atAGlow{
+  0%{
+    transform:translate3d(0,0,0) scale(1);
+    opacity:0.65;
+  }
+  50%{
+    transform:translate3d(-6px,4px,0) scale(1.03);
+    opacity:0.9;
+  }
+  100%{
+    transform:translate3d(4px,-4px,0) scale(1.02);
+    opacity:0.7;
+  }
+}
+
+
+/* Right At a glance card text stronger */
+#about-overview .contact-box h5{
+  font-weight:700;
+  color:#0f172a;
+    font-size:1rem;          /* default 0.95 se thoda bada */
+
+}
+#about-overview .contact-box .small,
+#about-overview .contact-box strong{
+  color:#0f172a;
+  font-weight:600;
+    font-size:1rem;          /* default 0.95 se thoda bada */
+
+}
+
+
+/* About overview: animated soft gradient background */
+
+.about-overview-animated{
+  position:relative;
+  overflow:hidden;
+  /* pehle jaisa */
+  background:linear-gradient(135deg,#0f172a,#1b2a41,#111827);
+  background-size:300% 300%;
+  animation:aboutOverviewBg 18s ease-in-out infinite;
+  color:#e5e7eb;  /* text light ho jaye */
+}
+
+/* container ke andar headings/text ko adapt karo */
+.about-overview-animated .section-title,
+.about-overview-animated .section-kicker{
+  color:#f9fafb;
+}
+.about-overview-animated .section-subtitle,
+.about-overview-animated p,
+.about-overview-animated li{
+  color:#e5e7eb;
+}
+
+
+.about-overview-animated .container{
+  position:relative;
+  z-index:1;
+}
+
+/* optional subtle radial glow layer */
+.about-overview-animated::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(27,166,166,0.10) 0, transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(255,138,92,0.10) 0, transparent 55%);
+  opacity:0.9;
+  pointer-events:none;
+  z-index:0;
+}
+
+@keyframes aboutOverviewBg{
+  0%{ background-position:0% 50%; }
+  50%{ background-position:100% 50%; }
+  100%{ background-position:0% 50%; }
+}
+
+/* === ABOUT PAGE – single animated CCTV strip for all sections === */
+.about-page-strip {
+  position: relative;
+  overflow: hidden;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+/* Fullscreen slideshow behind all about sections */
+.about-page-strip::before {
+  content: "";
+  position: fixed;               /* viewport se chipka hua background */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: aboutBgSlideshow 24s ease-in-out infinite;
+  filter: brightness(0.7);
+}
+
+/* Cards / boxes ko glassy white banana */
+.about-page-strip .about-card,
+.about-page-strip .contact-box,
+.about-page-strip .testimonial-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  border-radius: 16px;
+}
+
+/* Text colours readable */
+.about-page-strip,
+.about-page-strip p,
+.about-page-strip h1,
+.about-page-strip h2,
+.about-page-strip h3,
+.about-page-strip h5,
+.about-page-strip .section-kicker {
+  color: #062947;
+}
+
+/* Background slideshow images */
+@keyframes aboutBgSlideshow {
+  0%   { background-image: url("../images/carporate.jpeg"); }
+  33%  { background-image: url("../images/FIRE.jpg"); }
+  66%  { background-image: url("../images/Road Blockers & Tyre Killers.webp"); }
+  100% { background-image: url("../images/carporate.jpeg"); }
+}
+
+/* ABOUT strip section backgrounds + bold text */
+
+/* Who we are */
+#about-overview {
+  background: rgba(251, 9, 9, 0.92);
+}
+#about-overview h2,
+#about-overview p,
+#about-overview li {
+  font-weight:600;
+  color:#0f172a;
+}
+
+/* Know Your Maalik */
+#about-founder {
+  background: #d0f4de/* dark navy */
+}
+#about-founder h2,
+#about-founder h3,
+#about-founder p {
+  font-weight:700;
+  color:oklch(15.907% 0.00002 271.152);
+  font-size: 16px;
+}
+
+/* How we work */
+#about-process {
+  background:#d0f4de;
+}
+#about-process h2,
+#about-process h3,
+#about-process p {
+  font-weight:700;
+  color:hsl(198, 21%, 12%);
+  font-size: 16px;
+
+}
+
+/* Ideal for + Key solution areas */
+#about-fit {
+  background: #fcf6bd;/* light */
+}
+#about-fit h2,
+#about-fit p,
+#about-fit li {
+  font-weight:700;
+  color:lab(2.47% 0 0);
+  font-size: 16px;
+
+}
+
+/* Testimonials */
+#about-testimonials {
+  background: #fcf6bd;
+}
+#about-testimonials h2,
+#about-testimonials p {
+  font-weight:600;
+  color:hsl(0, 0%, 4%);
+}
+
+/* Final CTA band (already section-soft-alt) */
+.section-soft-alt {
+  background: rgba(248,250,252,0.95);
+}
+.section-soft-alt .cta-heading,
+.section-soft-alt p {
+  font-weight:600;
+  color:#0f172a;
+}
+
+/* Navbar logo sizing */
+.navbar-logo{
+  height:52px;
+  width:auto;
+}
+@media (max-width:767.98px){
+  .navbar-logo{ height:44px; }
+}
+
+/* Services quick links – same hover impact */
+.quick-links-bar{
+  z-index:1010;
+  font-size:0.85rem;
+  background:hsl(0, 2%, 92%);
+}
+.quick-links-bar a{
+  position:relative;
+  color:#6b7280;
+  padding:4px 10px;
+  border-radius:999px;
+  transition:color .18s ease, background-color .18s ease, box-shadow .18s ease;
+}
+.quick-links-bar a:hover{
+  color:#0f172a;
+  background:rgba(27,166,166,0.08);
+  box-shadow:0 3px 10px rgba(15,23,42,0.08);
+}
+.quick-links-bar a::after{
+  content:"";
+  position:absolute;
+  left:12px;
+  right:12px;
+  bottom:0;
+  height:2px;
+  border-radius:999px;
+  background:linear-gradient(90deg,#1ba6a6,#0ea5e9);
+  transform:scaleX(0);
+  transform-origin:left;
+  opacity:0;
+  transition:transform .2s ease, opacity .2s ease;
+}
+.quick-links-bar a:hover::after{
+  transform:scaleX(1);
+  opacity:1;
+}
+.quick-link.active{
+  color:var(--primary) !important;
+  font-weight:600;
+  background:rgba(27,166,166,0.12);
+}
+.quick-link.active::after{
+  transform:scaleX(1);
+  opacity:1;
+}
+
+/* Services page – 3‑step delivery cards */
+.process-card{
+  position:relative;
+  border-radius:18px;
+  padding:18px 18px 16px 18px;
+  background:#ffffff;
+  border:1px solid var(--border);
+  box-shadow:0 10px 30px rgba(15,23,42,0.06);
+  transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+
+.process-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 20px 50px rgba(15,23,42,0.16);
+  border-color:rgba(27,166,166,0.7);
+}
+
+/* Circle number pill */
+.process-step-pill{
+  width:32px;
+  height:32px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:0.9rem;
+  font-weight:600;
+  margin-bottom:8px;
+  background:linear-gradient(135deg,#1ba6a6,#0f766e);
+  color:#f9fafb;
+  box-shadow:0 8px 18px rgba(15,23,42,0.22);
+}
+/* Services intro + process strip */
+.section-services-intro{
+  position:relative;
+  overflow:hidden;
+  padding-top:32px;
+  padding-bottom:32px;
+}
+
+/* animated background */
+.section-services-intro::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  background:linear-gradient(135deg,#ffffff,#f3f4ff);
+  background-size:200% 200%;
+  opacity:0.98;
+  border-bottom:1px solid rgba(226,232,240,0.7);
+  animation:servicesStripColors 24s ease-in-out infinite;
+}
+
+/* content on top */
+.section-services-intro .container{
+  position:relative;
+  z-index:1;
+}
+
+/* continuous colour loop */
+@keyframes servicesStripColors{
+  0%{
+    background-image:
+      radial-gradient(circle at 0% 0%,   rgba(27,166,166,0.18) 0, transparent 55%),
+      radial-gradient(circle at 100% 80%, rgba(255,138,92,0.18) 0, transparent 55%),
+      linear-gradient(135deg,#ffffff,#f3f4ff);
+    background-position:0% 0%, 100% 100%, 0% 50%;
+  }
+  25%{
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(56,189,248,0.20) 0, transparent 55%),
+      radial-gradient(circle at 80% 90%, rgba(59,130,246,0.18) 0, transparent 55%),
+      linear-gradient(135deg,#eef2ff,#e0f2fe);
+    background-position:20% 20%, 80% 60%, 50% 50%;
+  }
+  50%{
+    background-image:
+      radial-gradient(circle at 0% 30%,  rgba(52,211,153,0.20) 0, transparent 55%),
+      radial-gradient(circle at 100% 70%, rgba(251,191,36,0.20) 0, transparent 55%),
+      linear-gradient(135deg,#fefce8,#ecfccb);
+    background-position:10% 30%, 90% 40%, 100% 50%;
+  }
+  75%{
+    background-image:
+      radial-gradient(circle at 10% 0%,  rgba(248,113,113,0.22) 0, transparent 55%),
+      radial-gradient(circle at 90% 90%, rgba(251,146,60,0.20) 0, transparent 55%),
+      linear-gradient(135deg,#fef2f2,#fff7ed);
+    background-position:0% 40%, 100% 60%, 50% 50%;
+  }
+  100%{
+    background-image:
+      radial-gradient(circle at 0% 0%,   rgba(27,166,166,0.18) 0, transparent 55%),
+      radial-gradient(circle at 100% 80%, rgba(255,138,92,0.18) 0, transparent 55%),
+      linear-gradient(135deg,#ffffff,#f3f4ff);
+    background-position:0% 0%, 100% 100%, 0% 50%;
+  }
+}
+
+.section-services-intro p{
+  font-size:0.95rem;
+}
+
+.services-intro-meta{
+  padding:10px 14px;
+  border-radius:12px;
+  background:rgba(245,245,255,0.8);
+  border:1px solid rgba(226,232,240,0.9);
+}
+/* ===========================================
+   SOLUTIONS PAGE - ANIMATED COLOURS ONLY
+   =========================================== */
+
+/* Page animated gradient background */
+.solutions-page {
+  position: relative;
+}
+
+.solutions-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: 
+    radial-gradient(circle at 20% 50%, #ffd6ff, transparent 50%),
+    radial-gradient(circle at 80% 20%, #c8b6ff, transparent 50%),
+    radial-gradient(circle at 40% 80%, #ffd6ff, transparent 50%),
+    linear-gradient(135deg, #ffd6ff 0%, #bde0fe 100%);
+  background-size: 400% 400%;
+  animation: solutionsBgGradient 5s ease infinite;
+}
+
+@keyframes solutionsBgGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Cards - gradient colours */
+/* Cards - gradient colours */
+.solutions-page .solution-card {
+  position: relative;                  /* ::before ke liye anchor */
+  background: rgba(226,140,140,0.28);  /* Tumhara colour */
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255,255,255,0.6);
+  box-shadow: 0 20px 50px rgba(15,23,42,0.15);
+  border-radius: 20px;
+  padding: 24px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+/* Inner moving colour glow layer */
+.solutions-page .solution-card::before {
+  content: "";
+  position: absolute;
+  inset: -20%;                          /* thoda bahar tak */
+  z-index: 0;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(96,165,250,0.4), transparent 55%),
+    radial-gradient(circle at 100% 0%, rgba(244,114,182,0.4), transparent 55%),
+    radial-gradient(circle at 0% 100%, rgba(52,211,153,0.4), transparent 55%);
+  opacity: 0.7;
+  filter: blur(8px);
+  animation: solutionCardGlow 10s ease-in-out infinite alternate;
+}
+
+/* Content upar rahe */
+.solutions-page .solution-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hover */
+.solutions-page .solution-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 26px 65px rgba(15,23,42,0.22);
+}
+
+/* Animation keyframes */
+@keyframes solutionCardGlow {
+  0%   { transform: translate3d(-10px, -10px, 0) scale(1); }
+  50%  { transform: translate3d(10px, 10px, 0) scale(1.03); }
+  100% { transform: translate3d(-5px, 5px, 0) scale(1.02); }
+}
+
+/* Hero - Animated gradient loop (continuous color shift) */
+.page-hero {
+  background: linear-gradient(135deg, #020617, #0f172a, #1ba6a6, #111827); /* Your vars */
+  background-size: 400% 400%; animation: heroShift 25s ease infinite;
+  position: relative; overflow: hidden;
+}
+.page-hero::before { content: ''; position: absolute; inset: 0; background: inherit; filter: blur(12px); opacity: 0.7; }
+@keyframes heroShift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+/* Solution Cards - Glass hover lift */
+.solution-card {
+  background: rgba(255,255,255,0.15); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 20px; transition: all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+  box-shadow: 0 10px 30px rgba(27,166,166,0.2);
+}
+.solution-card:hover {
+  transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 25px 50px rgba(27,166,166,0.4);
+}
+.solution-card img { transition: transform 0.4s; border-radius: 12px; }
+.solution-card:hover img { transform: scale(1.05); }
+
+/* Quick Links - Sticky polish */
+.quick-links-bar { background: rgba(248,250,252,0.95); backdrop-filter: blur(10px); }
+.quick-links-bar a:hover { color: var(--primary) !important; text-decoration: underline; }
+
+/* CTA Buttons - Consistent glow */
+.btn-primary-custom, .btn-outline-custom { border-radius: 50px; }
+.btn-primary-custom:hover { box-shadow: 0 8px 25px rgba(27,166,166,0.4); transform: translateY(-2px); }
+
+
+/* ========== PRODUCTS PAGE - ANIMATED BACKGROUND ========== */
+.products-page {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%);
+  animation: productsBgLoop 25s ease infinite;
+  min-height: 100vh;
+}
+
+@keyframes productsBgLoop {
+  0% { background-image: linear-gradient(135deg, #f8fafc, #e2e8f0); }
+  25% { background-image: linear-gradient(135deg, #e0f2fe, #f0f9ff); }
+  50% { background-image: linear-gradient(135deg, #fef3c7, #fefce8); }
+  75% { background-image: linear-gradient(135deg, #ffe4e6, #fff7ed); }
+  100% { background-image: linear-gradient(135deg, #f8fafc, #e2e8f0); }
+}
+
+/* ========== ALL PRODUCT CARDS - Category wise backgrounds ========== */
+.solution-card.product-card {
+  position: relative;
+  overflow: hidden;
+ background: rgba(255,255,255,0.95) !important;
+  border: 1px solid rgba(226,232,240,0.8);
+  transition: all 0.3s ease;
+}
+
+.solution-card.product-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.85;
+  pointer-events: none;
+  filter: blur(2px) brightness(0.9);
+  z-index: -1;
+  animation: cardBgShift 15s ease infinite;
+}
+
+/* Category specific backgrounds */
+#cctv .product-card::before {
+  background: 
+    radial-gradient(circle at top left, rgba(27,166,166,0.15) 0%, rgba(255,255,255,0.85) 50%),
+    linear-gradient(135deg, #8e3d17, #e6f7f7);
+}
+
+#fire .product-card::before {
+  background: 
+    radial-gradient(circle at top left, rgba(255,138,92,0.18) 0%, rgba(255,255,255,0.85) 50%),
+    linear-gradient(135deg, #ff8a5c, #ffe9df);
+}
+
+#biometric .product-card::before {
+  background: 
+    radial-gradient(circle at top left, rgba(59,130,246,0.12) 0%, rgba(255,255,255,0.85) 50%),
+    linear-gradient(135deg, #3b82f6, #dbeafe);
+}
+
+#pa .product-card::before {
+  background: 
+    radial-gradient(circle at top left, rgba(34,197,94,0.15) 0%, rgba(255,255,255,0.85) 50%),
+    linear-gradient(135deg, #22c55e, #dcfce7);
+}
+
+#gps .product-card::before {
+  background: 
+    radial-gradient(circle at top left, rgba(168,85,247,0.14) 0%, rgba(255,255,255,0.85) 50%),
+    linear-gradient(135deg, #a855f7, #f3e8ff);
+}
+
+#it .product-card::before {
+  background: 
+    radial-gradient(circle at top left, rgba(245,158,11,0.16) 0%, rgba(255,255,255,0.85) 50%),
+    linear-gradient(135deg, #f59e0b, #fef3c7);
+}
+
+#boom-tyre .product-card::before,
+#bollards-gate .product-card::before {
+  background: 
+    radial-gradient(circle at top left, rgba(239,68,68,0.15) 0%, rgba(255,255,255,0.85) 50%),
+    linear-gradient(135deg, #ef4444, #fee2e2);
+}
+
+@keyframes cardBgShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Hover effect */
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+
+/* FIXED: Signal Network + Intercom + Smart Class */
+#signal-network .solution-card.product-card::before,
+#intercom-epabx .solution-card.product-card::before,
+#smart-digital .solution-card.product-card::before {
+  background: 
+    radial-gradient(circle at top left, rgba(14,165,233,0.18) 0%, rgba(255,255,255,0.85) 50%),
+    linear-gradient(135deg, #0ea5e9, #e0f2fe);
+  animation: cardBgShift 15s ease infinite;
+}
+
+/* FIX: Sections visible on dark bg */
+body.products-page .section-padding {
+  background: rgba(255,255,255,0.95) !important;
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.2);
+  margin-bottom: 2rem;
+}
+
+body.products-page .page-hero {
+  background: rgba(15,23,42,0.9);
+  backdrop-filter: blur(15px);
+  border-radius: 0 0 20px 20px;
+}
+
+/* Cards ko bhi thoda pop karo */
+body.products-page .solution-card.product-card {
+  background: rgba(255,255,255,0.98) !important;
+  border: 1px solid rgba(255,255,255,0.3);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* FIXED: Section Backgrounds + Headings */
+body.products-page .section-padding {
+  position: relative;
+  margin: 3rem 0;
+  padding: 3rem 2rem;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.2);
+  overflow: hidden;
+}
+
+body.products-page .section-padding::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, 
+    rgba(27,166,166,0.15) 0%, 
+    rgba(255,138,92,0.1) 50%, 
+    rgba(59,130,246,0.12) 100%);
+  animation: sectionGradientFlow 15s ease infinite;
+  z-index: -1;
+}
+
+/* Section headings rainbow */
+body.products-page h2.section-title {
+  position: relative;
+  background: linear-gradient(90deg, #1ba6a6, #ff8a5c, #3b82f6, #22c55e);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: titleRainbow 6s ease infinite;
+  display: inline-block;
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-shadow: none;
+}
+
+@keyframes titleRainbow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes sectionGradientFlow {
+  0% { background-position: 0% 50%, 50% 50%, 100% 50%; }
+  50% { background-position: 100% 50%, 0% 50%, 50% 50%; }
+  100% { background-position: 0% 50%, 50% 50%, 100% 50%; }
+}
+
+
+/* ========== CONTACT PAGE - SAME PRODUCTS STYLE ========== */
+.contact-page {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%);
+  animation: contactBgLoop 25s ease infinite;
+  min-height: 100vh;
+}
+
+@keyframes contactBgLoop {
+  0% { background-image: linear-gradient(135deg, #e0f2fe, #fefce8); }
+  25% { background-image: linear-gradient(135deg, #e0f2fe, #f0f9ff); }
+  50% { background-image: linear-gradient(135deg, #fef3c7, #fefce8); }
+  75% { background-image: linear-gradient(135deg, #ffe4e6, #fff7ed); }
+  100% { background-image: linear-gradient(135deg, #f0f3f4, #cdb4db); }
+}
+
+/* Contact sections - Glassmorphism */
+.contact-page .section-padding {
+  position: relative;
+  margin: 3rem 0;
+  padding: 3rem 2rem;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.2);
+  overflow: hidden;
+}
+
+.contact-page .section-padding::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, 
+    rgba(27,166,166,0.15) 0%, 
+    rgba(255,138,92,0.1) 50%, 
+    rgba(59,130,246,0.12) 100%);
+  animation: sectionGradientFlow 15s ease infinite;
+  z-index: -1;
+}
+
+@keyframes sectionGradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Contact headings rainbow */
+.contact-page h2.section-title {
+  position: relative;
+  background: linear-gradient(90deg, #1ba6a6, #ff8a5c, #3b82f6, #22c55e);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: titleRainbow 6s ease infinite;
+  display: inline-block;
+  font-size: 2.2rem;
+  font-weight: 700;
+}
+
+@keyframes titleRainbow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Contact form cards */
+.contact-page .contact-box,
+.contact-page .form-card {
+  background: rgba(255,255,255,0.98) !important;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.3);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.contact-page .page-hero {
+  background: rgba(15,23,42,0.9);
+  backdrop-filter: blur(15px);
+  border-radius: 0 0 20px 20px;
+}
+
+/* Hover effects */
+.contact-page .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.cctv-product-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: 
+    radial-gradient(circle at 20% 50%, #a5f3fc, transparent 50%),
+    radial-gradient(circle at 80% 20%, #b4f8c8, transparent 50%),
+    radial-gradient(circle at 40% 80%, #fed7aa, transparent 50%),
+    linear-gradient(135deg, #fefce8 0%, #e0f2fe 100%);
+  background-size: 400% 400%;
+  animation: productBgGradient 6s ease infinite;
+}
+
+@keyframes productBgGradient {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.solution-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(165,243,252,0.8)) !important;
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255,255,255,0.6);
+  color: #1e293b !important;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(165,243,252,0.3);
+  transition: all 0.4s ease;
+}
+
+.solution-card:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 30px 60px rgba(180,248,200,0.4);
+}
+
+/* Fire Products Page - Add to style.css */
+.fire-products-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: 
+    radial-gradient(circle at 20% 50%, #fed7aa, transparent 50%),
+    radial-gradient(circle at 80% 20%, #fca5a5, transparent 50%),
+    radial-gradient(circle at 40% 80%, #fed7aa, transparent 50%),
+    linear-gradient(135deg, #fef3c7 0%, #fee2e2 100%);
+  background-size: 400% 400%;
+  animation: fireBgGradient 6s ease infinite;
+}
+
+@keyframes fireBgGradient {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.fire-products-page .solution-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(254,215,170,0.75)) !important;
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255,255,255,0.7);
+  color: #991b1b !important;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(254,165,165,0.35);
+  transition: all 0.4s ease;
+}
+
+.fire-products-page .solution-card:hover {
+  transform: translateY(-15px) scale(1.03);
+  box-shadow: 0 35px 65px rgba(252,165,165,0.45);
+}
+
+.fire-products-page .product-meta {
+  background: linear-gradient(45deg, #ef4444, #f59e0b);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 25px;
+  font-weight: 700;
+}

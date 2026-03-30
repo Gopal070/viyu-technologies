@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Admin Dashboard – VIYU TECHNOLOGIES LLP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="assets/images/viyu_logo.jpg-removebg-preview.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+  <style>
+    .admin-body { background: #f5f6fa; min-height: 100vh; }
+    .admin-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.07); padding: 1.5rem; margin-bottom: 1.5rem; }
+    .admin-header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #fff; padding: 1rem 0; }
+    .admin-header h4 { margin: 0; }
+    .badge-unread { background: #e74c3c; }
+    .badge-read { background: #27ae60; }
+    .table td, .table th { vertical-align: middle; }
+    .stat-card { border-radius: 12px; padding: 1.2rem; color: #fff; text-align: center; }
+    .stat-card h3 { margin: 0; font-size: 2rem; }
+    .stat-card p { margin: 0; opacity: .85; font-size: .85rem; }
+    .login-wrapper { display: flex; align-items: center; justify-content: center; min-height: 80vh; }
+    .login-box { max-width: 400px; width: 100%; }
+    #adminApp { display: none; }
+    .img-preview { max-height: 80px; border-radius: 6px; }
+    .feature-item { display: flex; gap: .5rem; margin-bottom: .25rem; }
+    .feature-item input { flex: 1; }
+  </style>
+</head>
+<body class="admin-body">
+
+<!-- LOGIN SECTION -->
+<div id="loginSection">
+  <div class="login-wrapper">
+    <div class="login-box admin-card">
+      <div class="text-center mb-3">
+        <img src="assets/images/viyu_logo.jpg-removebg-preview.png" alt="Logo" style="height:60px;">
+        <h5 class="mt-2">Admin Login</h5>
+        <p class="small text-muted">VIYU TECHNOLOGIES LLP</p>
+      </div>
+      <form id="loginForm">
+        <div class="mb-3">
+          <label class="form-label">Username</label>
+          <input type="text" class="form-control" id="loginUsername" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-control" id="loginPassword" required>
+        </div>
+        <div id="loginError" class="text-danger small mb-2" style="display:none;"></div>
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN APP -->
+<div id="adminApp">
+  <!-- Header -->
+  <div class="admin-header">
+    <div class="container d-flex justify-content-between align-items-center">
+      <h4><i class="bi bi-gear-fill me-2"></i>Admin Dashboard</h4>
+      <div>
+        <span id="adminName" class="me-3 small"></span>
+        <button class="btn btn-sm btn-outline-light" onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-4">
+    <!-- Stats Row -->
+    <div class="row g-3 mb-4" id="statsRow">
+      <div class="col-md-3">
+        <div class="stat-card" style="background: linear-gradient(135deg,#667eea,#764ba2);">
+          <h3 id="statProducts">0</h3>
+          <p>Total Products</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-card" style="background: linear-gradient(135deg,#11998e,#38ef7d);">
+          <h3 id="statContacts">0</h3>
+          <p>Contacts</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-card" style="background: linear-gradient(135deg,#eb3349,#f45c43);">
+          <h3 id="statUnread">0</h3>
+          <p>Unread</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-card" style="background: linear-gradient(135deg,#f6d365,#fda085);">
+          <h3 id="statMedia">0</h3>
+          <p>Media Items</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#productsTab">
+          <i class="bi bi-box-seam me-1"></i>Products
+        </button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#contactsTab">
+          <i class="bi bi-envelope me-1"></i>Contacts
+        </button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#mediaTab">
+          <i class="bi bi-images me-1"></i>Media Gallery
+        </button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#servicesTab">
+          <i class="bi bi-tools me-1"></i>Services
+        </button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#solutionsTab">
+          <i class="bi bi-lightbulb me-1"></i>Solutions
+        </button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#aboutTab">
+          <i class="bi bi-building me-1"></i>About Us
+        </button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#settingsTab">
+          <i class="bi bi-gear me-1"></i>Site Settings
+        </button>
+      </li>
+    </ul>
+
+    <div class="tab-content mt-3">
+      <!-- PRODUCTS TAB -->
+      <div class="tab-pane fade show active" id="productsTab">
+        <div class="admin-card">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex gap-2 align-items-center">
+              <h5 class="mb-0">Products</h5>
+              <select id="filterCategory" class="form-select form-select-sm" style="width:auto;">
+                <option value="">All Categories</option>
+                <option value="cctv">CCTV</option>
+                <option value="fire">Fire Alarm</option>
+                <option value="biometric">Biometric</option>
+                <option value="pa">PA System</option>
+                <option value="gps">GPS</option>
+                <option value="it">IT & Laptops</option>
+                <option value="boom-tyre">Boom Barriers</option>
+                <option value="bollards-gate">Bollards & Gates</option>
+                <option value="signal-network">Signal & Network</option>
+                <option value="intercom-epabx">Intercom & EPABX</option>
+                <option value="smart-digital">Smart & Digital</option>
+              </select>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="openProductModal()">
+              <i class="bi bi-plus"></i> Add Product
+            </button>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-light">
+                <tr>
+                  <th>Image</th>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Tags</th>
+                  <th style="width:120px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="productsTableBody">
+                <tr><td colspan="5" class="text-center text-muted py-4">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTACTS TAB -->
+      <div class="tab-pane fade" id="contactsTab">
+        <div class="admin-card">
+          <h5 class="mb-3">Contact Submissions</h5>
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-light">
+                <tr>
+                  <th>Status</th>
+                  <th>Name</th>
+                  <th>Mobile</th>
+                  <th>Email</th>
+                  <th>Service</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="contactsTableBody">
+                <tr><td colspan="7" class="text-center text-muted py-4">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- MEDIA TAB -->
+      <div class="tab-pane fade" id="mediaTab">
+        <div class="admin-card">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex gap-2">
+              <h5 class="mb-0 pt-1">Media Gallery</h5>
+              <select id="filterMediaType" class="form-select form-select-sm" style="width:auto;" onchange="renderMedia()">
+                <option value="">All Types</option>
+                <option value="photo">Photos</option>
+                <option value="video">Videos</option>
+              </select>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="openMediaModal()">
+              <i class="bi bi-plus"></i> Add Media
+            </button>
+          </div>
+          <p class="small text-muted mb-2"><i class="bi bi-info-circle me-1"></i>Drag and drop rows to reorder them on the public gallery.</p>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 40px;"></th>
+                  <th style="width: 100px;">Preview</th>
+                  <th>Details</th>
+                  <th>Category / Site</th>
+                  <th>Status</th>
+                  <th style="width:120px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="mediaTableBody">
+                <tr><td colspan="6" class="text-center text-muted py-4">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- SERVICES TAB -->
+      <div class="tab-pane fade" id="servicesTab">
+        <div class="admin-card">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0">Services</h5>
+            <button class="btn btn-primary btn-sm" onclick="openServiceModal()">
+              <i class="bi bi-plus"></i> Add Service
+            </button>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 40px;"></th>
+                  <th>Icon/Image</th>
+                  <th>Title</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="servicesTableBody">
+                <tr><td colspan="5" class="text-center text-muted py-4">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOLUTIONS TAB -->
+      <div class="tab-pane fade" id="solutionsTab">
+        <div class="admin-card">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0">Solutions</h5>
+            <button class="btn btn-primary btn-sm" onclick="openSolutionModal()">
+              <i class="bi bi-plus"></i> Add Solution
+            </button>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 40px;"></th>
+                  <th>Image</th>
+                  <th>Title</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="solutionsTableBody">
+                <tr><td colspan="5" class="text-center text-muted py-4">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABOUT US TAB -->
+      <div class="tab-pane fade" id="aboutTab">
+        <div class="admin-card">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0">About Us Content</h5>
+            <button class="btn btn-primary btn-sm" onclick="saveAboutUs()">
+              <i class="bi bi-save"></i> Save Changes
+            </button>
+          </div>
+          <form id="aboutUsForm">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Company Name</label>
+                <input type="text" class="form-control" id="aboutCompanyName">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Tagline / Hero Title</label>
+                <input type="text" class="form-control" id="aboutTagline">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Mission Statement</label>
+                <textarea class="form-control" id="aboutMission" rows="3"></textarea>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Vision Statement</label>
+                <textarea class="form-control" id="aboutVision" rows="3"></textarea>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Detailed Description (HTML Supported)</label>
+                <textarea class="form-control" id="aboutDescription" rows="8"></textarea>
+              </div>
+              <div class="col-12">
+                <hr>
+                <h6>Stats / Counters</h6>
+                <div id="aboutStatsContainer" class="mb-2"></div>
+                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="addAboutStat()">+ Add Stat</button>
+              </div>
+              <div class="col-12">
+                <hr>
+                <h6>Team Members (JSON)</h6>
+                <p class="small text-muted mb-1">Format: [{"name":"John", "designation":"CEO", "bio":"...", "image":"url"}]</p>
+                <textarea class="form-control text-monospace text-sm" id="aboutTeamJson" rows="5"></textarea>
+              </div>
+              <div class="col-12">
+                <hr>
+                <h6>Gallery / Hero Images (URLs, one per line)</h6>
+                <textarea class="form-control" id="aboutImagesList" rows="3"></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- SITE SETTINGS TAB -->
+      <div class="tab-pane fade" id="settingsTab">
+        <div class="admin-card">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0">Site Settings & Banner</h5>
+            <button class="btn btn-primary btn-sm" onclick="saveSiteSettings()">
+              <i class="bi bi-save"></i> Save Settings
+            </button>
+          </div>
+          <form id="settingsForm">
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label class="form-label">WhatsApp Number</label>
+                <input type="text" class="form-control" id="setWhatsappNumber" placeholder="917785931010">
+              </div>
+              <div class="col-md-8">
+                <label class="form-label">WhatsApp Default Message</label>
+                <input type="text" class="form-control" id="setWhatsappMessage" placeholder="Hello VIYU, I have an enquiry.">
+              </div>
+              <div class="col-md-6 mt-4">
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="setEnableWhatsAppButton">
+                  <label class="form-check-label">Enable Floating WhatsApp Button</label>
+                </div>
+              </div>
+              <div class="col-md-6 mt-4">
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="setEnableGlobalBanner">
+                  <label class="form-check-label">Enable Global Bottom Banner</label>
+                </div>
+              </div>
+              <div class="col-12 mt-3">
+                <label class="form-label">Banner HTML Content</label>
+                <textarea class="form-control" id="setBannerContent" rows="4"></textarea>
+                <div class="form-text">Used if Global Bottom Banner is enabled.</div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal fade" id="productModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="productModalTitle">Add Product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form id="productForm">
+        <div class="modal-body">
+          <input type="hidden" id="productId">
+          <div class="row g-3">
+            <div class="col-md-8">
+              <label class="form-label">Product Name *</label>
+              <input type="text" class="form-control" id="prodName" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Category *</label>
+              <select id="prodCategory" class="form-select" required>
+                <option value="">Select</option>
+                <option value="cctv">CCTV</option>
+                <option value="fire">Fire Alarm</option>
+                <option value="biometric">Biometric</option>
+                <option value="pa">PA System</option>
+                <option value="gps">GPS</option>
+                <option value="it">IT & Laptops</option>
+                <option value="boom-tyre">Boom Barriers</option>
+                <option value="bollards-gate">Bollards & Gates</option>
+                <option value="signal-network">Signal & Network</option>
+                <option value="intercom-epabx">Intercom & EPABX</option>
+                <option value="smart-digital">Smart & Digital</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Subcategory</label>
+              <input type="text" class="form-control" id="prodSubcategory" placeholder="e.g. Dome Cameras">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Tags (one line)</label>
+              <input type="text" class="form-control" id="prodTags" placeholder="e.g. 2 MP · IP · PoE">
+            </div>
+            <div class="col-12">
+              <label class="form-label">Description *</label>
+              <textarea class="form-control" id="prodDescription" rows="2" required></textarea>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Price</label>
+              <input type="text" class="form-control" id="prodPrice" placeholder="Contact for price">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Enquiry Button Label</label>
+              <input type="text" class="form-control" id="prodEnquiryLabel" placeholder="Enquire Now">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Image Path</label>
+              <input type="text" class="form-control" id="prodImage" placeholder="assets/images/photo.jpg">
+              <div class="form-text">Relative path to existing image, or upload below.</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Upload Image</label>
+              <input type="file" class="form-control" id="prodImageFile" accept="image/*">
+            </div>
+            <div class="col-12">
+              <label class="form-label">Features</label>
+              <div id="featuresContainer">
+                <div class="feature-item">
+                  <input type="text" class="form-control form-control-sm" placeholder="Feature 1">
+                  <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeFeature(this)">×</button>
+                </div>
+              </div>
+              <button type="button" class="btn btn-sm btn-outline-secondary mt-1" onclick="addFeature()">+ Add Feature</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="saveProductBtn">Save Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT DETAIL MODAL -->
+<div class="modal fade" id="contactModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Enquiry Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="contactDetailBody"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MEDIA MODAL -->
+<div class="modal fade" id="mediaModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="mediaModalTitle">Add Media</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form id="mediaForm">
+        <div class="modal-body">
+          <input type="hidden" id="mediaId">
+          <div class="row g-3">
+            <div class="col-md-8">
+              <label class="form-label">Title *</label>
+              <input type="text" class="form-control" id="mediaTitle" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Type *</label>
+              <select class="form-select" id="mediaType" required>
+                <option value="photo">Photo</option>
+                <option value="video">Video</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Description</label>
+              <textarea class="form-control" id="mediaDescription" rows="2"></textarea>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Category</label>
+              <input type="text" class="form-control" id="mediaCategory" placeholder="e.g. CCTV Projects">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Site Location</label>
+              <input type="text" class="form-control" id="mediaSiteLocation" placeholder="e.g. Mumbai HQ">
+            </div>
+            
+            <div class="col-12 mt-4"><hr class="my-0"></div>
+            
+            <div class="col-md-6">
+              <label class="form-label">Upload File (Image or MP4)</label>
+              <input type="file" class="form-control" id="mediaFile" accept="image/*,video/mp4">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">OR External URL / YouTube Embed</label>
+              <input type="text" class="form-control" id="mediaUrl" placeholder="https://www.youtube.com/watch?v=...">
+              <div class="form-text">Used if no file is uploaded.</div>
+            </div>
+            <div class="col-md-12">
+              <label class="form-label">Video Thumbnail URL (Optional)</label>
+              <input type="text" class="form-control" id="mediaThumbnail" placeholder="e.g. Optional cover for videos">
+            </div>
+            <div class="col-md-12 mt-3">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="mediaPublished" checked>
+                <label class="form-check-label" for="mediaPublished">Published (visible on website)</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="saveMediaBtn">Save Media</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICE MODAL -->
+<div class="modal fade" id="serviceModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="serviceModalTitle">Add Service</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form id="serviceForm">
+        <div class="modal-body">
+          <input type="hidden" id="serviceId">
+          <div class="row g-3">
+            <div class="col-md-12">
+              <label class="form-label">Title *</label>
+              <input type="text" class="form-control" id="serviceTitle" required>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Description *</label>
+              <textarea class="form-control" id="serviceDescription" rows="3" required></textarea>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Icon Class (optional)</label>
+              <input type="text" class="form-control" id="serviceIcon" placeholder="e.g. bi bi-camera-video-fill">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Image File</label>
+              <input type="file" class="form-control" id="serviceImageFile" accept="image/*">
+            </div>
+            <div class="col-12 mt-3">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="servicePublished" checked>
+                <label class="form-check-label">Published</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Service</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- SOLUTION MODAL -->
+<div class="modal fade" id="solutionModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="solutionModalTitle">Add Solution</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form id="solutionForm">
+        <div class="modal-body">
+          <input type="hidden" id="solutionId">
+          <div class="row g-3">
+            <div class="col-md-12">
+              <label class="form-label">Title *</label>
+              <input type="text" class="form-control" id="solutionTitle" required>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Description *</label>
+              <textarea class="form-control" id="solutionDescription" rows="3" required></textarea>
+            </div>
+            <div class="col-md-12">
+              <label class="form-label">Image File</label>
+              <input type="file" class="form-control" id="solutionImageFile" accept="image/*">
+            </div>
+            <div class="col-12">
+              <label class="form-label">Features</label>
+              <div id="solutionFeaturesContainer"></div>
+              <button type="button" class="btn btn-sm btn-outline-secondary mt-1" onclick="addSolutionFeature()">+ Add Feature</button>
+            </div>
+            <div class="col-12 mt-3">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="solutionPublished" checked>
+                <label class="form-check-label">Published</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Solution</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // ── State ──
+  let token = localStorage.getItem('viyu_admin_token') || '';
+  let allProducts = [];
+  let allContacts = [];
+  let allMedia = [];
+  let allServices = [];
+  let allSolutions = [];
+  let aboutData = {};
+  let settingsData = {};
+
+  let sortableInstance = null;
+  let srvSortable = null;
+  let solSortable = null;
+
+  // ── On page load ──
+  window.addEventListener('DOMContentLoaded', () => {
+    if (token) {
+      verifyToken();
+    }
+    document.getElementById('loginForm').addEventListener('submit', handleLogin);
+    document.getElementById('productForm').addEventListener('submit', handleSaveProduct);
+    document.getElementById('mediaForm').addEventListener('submit', handleSaveMedia);
+    document.getElementById('serviceForm').addEventListener('submit', handleSaveService);
+    document.getElementById('solutionForm').addEventListener('submit', handleSaveSolution);
+    document.getElementById('filterCategory').addEventListener('change', renderProducts);
+  });
+
+  // ── Auth ──
+  async function handleLogin(e) {
+    e.preventDefault();
+    const username = document.getElementById('loginUsername').value;
+    const password = document.getElementById('loginPassword').value;
+    const errEl = document.getElementById('loginError');
+    errEl.style.display = 'none';
+
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+
+      token = data.token;
+      localStorage.setItem('viyu_admin_token', token);
+      showAdmin(data.user);
+    } catch (err) {
+      errEl.textContent = err.message;
+      errEl.style.display = 'block';
+    }
+  }
+
+  async function verifyToken() {
+    try {
+      const res = await fetch('/api/auth/me', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      if (!res.ok) throw new Error();
+      const user = await res.json();
+      showAdmin(user);
+    } catch {
+      token = '';
+      localStorage.removeItem('viyu_admin_token');
+    }
+  }
+
+  function showAdmin(user) {
+    document.getElementById('loginSection').style.display = 'none';
+    document.getElementById('adminApp').style.display = 'block';
+    document.getElementById('adminName').textContent = `Hello, ${user.username}`;
+    loadAllData();
+  }
+
+  function logout() {
+    token = '';
+    localStorage.removeItem('viyu_admin_token');
+    document.getElementById('loginSection').style.display = 'block';
+    document.getElementById('adminApp').style.display = 'none';
+  }
+
+  // ── Data Loading ──
+  async function loadAllData() {
+    try {
+      await Promise.all([
+        loadProducts(), 
+        loadContacts(), 
+        loadMedia(),
+        loadServices(),
+        loadSolutions(),
+        loadAboutUs(),
+        loadSiteSettings()
+      ]);
+    } catch(err) {
+      console.error('Error loading data:', err);
+    }
+  }
+
+  async function loadProducts() {
+    try {
+      const res = await fetch('/api/products');
+      allProducts = await res.json();
+      updateStats();
+      renderProducts();
+    } catch (err) { console.error(err); }
+  }
+
+  async function loadContacts() {
+    try {
+      const res = await fetch('/api/contact', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      allContacts = await res.json();
+      updateStats();
+      renderContacts();
+    } catch (err) { console.error(err); }
+  }
+
+  async function loadMedia() {
+    try {
+      // Must use /all endpoint to see unpublished media too
+      const res = await fetch('/api/media/all', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      if (!res.ok) throw new Error();
+      allMedia = await res.json();
+      updateStats();
+      renderMedia();
+    } catch (err) { console.error('Failed to load media:', err); }
+  }
+
+  function updateStats() {
+    document.getElementById('statProducts').textContent = allProducts.length;
+    document.getElementById('statContacts').textContent = allContacts.length;
+    document.getElementById('statUnread').textContent = allContacts.filter(c => !c.isRead).length;
+    document.getElementById('statMedia').textContent = allMedia.length;
+  }
+
+  // ── Products Rendering ──
+  function renderProducts() {
+    const filter = document.getElementById('filterCategory').value;
+    const filtered = filter ? allProducts.filter(p => p.category === filter) : allProducts;
+    const tbody = document.getElementById('productsTableBody');
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-4">No products found.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = filtered.map(p => `
+      <tr>
+        <td>${p.image ? `<img src="${p.image}" class="img-preview" alt="">` : '<span class="text-muted small">No image</span>'}</td>
+        <td><strong>${p.name}</strong><br><span class="small text-muted">${p.subcategory || ''}</span></td>
+        <td><span class="badge bg-secondary">${p.category}</span></td>
+        <td class="small">${p.tags || ''}</td>
+        <td>
+          <button class="btn btn-sm btn-outline-primary me-1" onclick="editProduct('${p._id}')" title="Edit">
+            <i class="bi bi-pencil"></i>
+          </button>
+          <button class="btn btn-sm btn-outline-danger" onclick="deleteProduct('${p._id}')" title="Delete">
+            <i class="bi bi-trash"></i>
+          </button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  // ── Contacts Rendering ──
+  function renderContacts() {
+    const tbody = document.getElementById('contactsTableBody');
+
+    if (allContacts.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted py-4">No submissions yet.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = allContacts.map(c => `
+      <tr style="${!c.isRead ? 'font-weight:600;' : ''}">
+        <td><span class="badge ${c.isRead ? 'badge-read' : 'badge-unread'}">${c.isRead ? 'Read' : 'New'}</span></td>
+        <td>${c.name}</td>
+        <td><a href="tel:${c.mobile}">${c.mobile}</a></td>
+        <td>${c.email || '–'}</td>
+        <td class="small">${c.service || '–'}</td>
+        <td class="small">${new Date(c.createdAt).toLocaleDateString('en-IN')}</td>
+        <td>
+          <button class="btn btn-sm btn-outline-info me-1" onclick="viewContact('${c._id}')" title="View">
+            <i class="bi bi-eye"></i>
+          </button>
+          ${!c.isRead ? `<button class="btn btn-sm btn-outline-success me-1" onclick="markRead('${c._id}')" title="Mark Read">
+            <i class="bi bi-check2"></i>
+          </button>` : ''}
+          <button class="btn btn-sm btn-outline-danger" onclick="deleteContact('${c._id}')" title="Delete">
+            <i class="bi bi-trash"></i>
+          </button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  // ── Product CRUD ──
+  function openProductModal(product = null) {
+    document.getElementById('productModalTitle').textContent = product ? 'Edit Product' : 'Add Product';
+    document.getElementById('productId').value = product ? product._id : '';
+    document.getElementById('prodName').value = product ? product.name : '';
+    document.getElementById('prodCategory').value = product ? product.category : '';
+    document.getElementById('prodSubcategory').value = product ? (product.subcategory || '') : '';
+    document.getElementById('prodTags').value = product ? (product.tags || '') : '';
+    document.getElementById('prodDescription').value = product ? product.description : '';
+    document.getElementById('prodPrice').value = product ? (product.price || '') : '';
+    document.getElementById('prodEnquiryLabel').value = product ? (product.enquiryLabel || '') : '';
+    document.getElementById('prodImage').value = product ? (product.image || '') : '';
+    document.getElementById('prodImageFile').value = '';
+
+    // Features
+    const fc = document.getElementById('featuresContainer');
+    fc.innerHTML = '';
+    const features = product && product.features ? product.features : [''];
+    features.forEach(f => addFeature(f));
+
+    new bootstrap.Modal(document.getElementById('productModal')).show();
+  }
+
+  function addFeature(value = '') {
+    const div = document.createElement('div');
+    div.className = 'feature-item';
+    div.innerHTML = `
+      <input type="text" class="form-control form-control-sm" placeholder="Feature" value="${value.replace(/"/g, '&quot;')}">
+      <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeFeature(this)">×</button>`;
+    document.getElementById('featuresContainer').appendChild(div);
+  }
+
+  function removeFeature(btn) {
+    btn.parentElement.remove();
+  }
+
+  function editProduct(id) {
+    const product = allProducts.find(p => p._id === id);
+    if (product) openProductModal(product);
+  }
+
+  async function handleSaveProduct(e) {
+    e.preventDefault();
+    const id = document.getElementById('productId').value;
+    const imageFile = document.getElementById('prodImageFile').files[0];
+
+    // Collect features
+    const featureInputs = document.querySelectorAll('#featuresContainer input');
+    const features = Array.from(featureInputs).map(i => i.value.trim()).filter(Boolean);
+
+    const formData = new FormData();
+    formData.append('name', document.getElementById('prodName').value);
+    formData.append('category', document.getElementById('prodCategory').value);
+    formData.append('subcategory', document.getElementById('prodSubcategory').value);
+    formData.append('tags', document.getElementById('prodTags').value);
+    formData.append('description', document.getElementById('prodDescription').value);
+    formData.append('price', document.getElementById('prodPrice').value || 'Contact for price');
+    formData.append('enquiryLabel', document.getElementById('prodEnquiryLabel').value || 'Enquire Now');
+    formData.append('image', document.getElementById('prodImage').value);
+    formData.append('features', JSON.stringify(features));
+    if (imageFile) formData.append('imageFile', imageFile);
+
+    const url = id ? `/api/products/${id}` : '/api/products';
+    const method = id ? 'PUT' : 'POST';
+
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: { 'Authorization': 'Bearer ' + token },
+        body: formData
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error);
+      }
+
+      bootstrap.Modal.getInstance(document.getElementById('productModal')).hide();
+      loadProducts();
+    } catch (err) {
+      alert('Error: ' + err.message);
+    }
+  }
+
+  async function deleteProduct(id) {
+    if (!confirm('Delete this product? This cannot be undone.')) return;
+    try {
+      await fetch(`/api/products/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      loadProducts();
+    } catch (err) { alert('Error deleting product.'); }
+  }
+
+  // ── Contact actions ──
+  function viewContact(id) {
+    const c = allContacts.find(x => x._id === id);
+    if (!c) return;
+    document.getElementById('contactDetailBody').innerHTML = `
+      <p><strong>Name:</strong> ${c.name}</p>
+      <p><strong>Mobile:</strong> <a href="tel:${c.mobile}">${c.mobile}</a></p>
+      <p><strong>Email:</strong> ${c.email || '–'}</p>
+      <p><strong>City:</strong> ${c.city || '–'}</p>
+      <p><strong>Service:</strong> ${c.service || '–'}</p>
+      <p><strong>Requirement:</strong></p>
+      <p class="bg-light p-2 rounded">${c.message}</p>
+      <p class="small text-muted">Submitted: ${new Date(c.createdAt).toLocaleString('en-IN')}</p>`;
+    new bootstrap.Modal(document.getElementById('contactModal')).show();
+    if (!c.isRead) markRead(id);
+  }
+
+  async function markRead(id) {
+    try {
+      await fetch(`/api/contact/${id}/read`, {
+        method: 'PATCH',
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      loadContacts();
+    } catch (err) { console.error(err); }
+  }
+
+  async function deleteContact(id) {
+    if (!confirm('Delete this enquiry?')) return;
+    try {
+      await fetch(`/api/contact/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      loadContacts();
+    } catch (err) { alert('Error deleting contact.'); }
+  }
+
+  // ── Media Rendering & CRUD ──
+  function renderMedia() {
+    const filterType = document.getElementById('filterMediaType').value;
+    const filtered = filterType ? allMedia.filter(m => m.type === filterType) : allMedia;
+    const tbody = document.getElementById('mediaTableBody');
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted py-4">No media uploaded yet.</td></tr>';
+      if (sortableInstance) sortableInstance.destroy();
+      return;
+    }
+
+    tbody.innerHTML = filtered.map(m => {
+      let preview = '';
+      if (m.type === 'photo') {
+        preview = `<img src="${m.url}" class="img-preview" alt="Preview">`;
+      } else {
+        preview = m.thumbnail 
+          ? `<img src="${m.thumbnail}" class="img-preview" alt="Video">` 
+          : `<div class="bg-dark text-white rounded d-flex align-items-center justify-content-center" style="width:80px;height:50px;"><i class="bi bi-play-circle fs-4"></i></div>`;
+      }
+
+      return `
+      <tr data-id="${m._id}">
+        <td style="cursor: grab;" class="text-muted"><i class="bi bi-grip-vertical"></i></td>
+        <td>${preview}</td>
+        <td><strong>${m.title}</strong><br><span class="badge ${m.type === 'photo' ? 'bg-primary' : 'bg-danger'}">${m.type.toUpperCase()}</span></td>
+        <td class="small">${m.category || '–'}<br><span class="text-muted">${m.siteLocation || ''}</span></td>
+        <td><span class="badge ${m.isPublished ? 'bg-success' : 'bg-secondary'}">${m.isPublished ? 'Published' : 'Draft'}</span></td>
+        <td>
+          <button class="btn btn-sm btn-outline-primary me-1" onclick="editMedia('${m._id}')">
+            <i class="bi bi-pencil"></i>
+          </button>
+          <button class="btn btn-sm btn-outline-danger" onclick="deleteMedia('${m._id}')">
+            <i class="bi bi-trash"></i>
+          </button>
+        </td>
+      </tr>`;
+    }).join('');
+
+    // Init SortableJS
+    if (sortableInstance) sortableInstance.destroy();
+    
+    // Only allow sorting if we aren't filtering (or handle filtering sort properly, but easier to just sort when all shown)
+    if (!filterType) {
+      sortableInstance = Sortable.create(tbody, {
+        animation: 150,
+        handle: '.bi-grip-vertical',
+        onEnd: async function () {
+          // Rebuild order
+          const rows = tbody.querySelectorAll('tr');
+          const orderMap = Array.from(rows).map((row, index) => ({
+            id: row.dataset.id,
+            order: index
+          }));
+
+          try {
+            await fetch('/api/media/reorder', {
+              method: 'PATCH',
+              headers: { 
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ orderMap })
+            });
+            // Reload silently or just keep local state
+            allMedia.forEach(m => {
+              const mapped = orderMap.find(o => o.id === m._id);
+              if (mapped) m.order = mapped.order;
+            });
+            allMedia.sort((a,b) => a.order - b.order);
+          } catch(err) {
+            console.error('Reorder failed', err);
+            loadMedia(); // Reset on fail
+          }
+        }
+      });
+    }
+  }
+
+  function openMediaModal(item = null) {
+    document.getElementById('mediaForm').reset();
+    document.getElementById('mediaModalTitle').textContent = item ? 'Edit Media' : 'Add Media';
+    document.getElementById('mediaId').value = item ? item._id : '';
+    document.getElementById('mediaTitle').value = item ? item.title : '';
+    document.getElementById('mediaType').value = item ? item.type : 'photo';
+    document.getElementById('mediaDescription').value = item ? (item.description || '') : '';
+    document.getElementById('mediaCategory').value = item ? (item.category || '') : '';
+    document.getElementById('mediaSiteLocation').value = item ? (item.siteLocation || '') : '';
+    document.getElementById('mediaUrl').value = item ? (item.url || '') : '';
+    document.getElementById('mediaThumbnail').value = item ? (item.thumbnail || '') : '';
+    document.getElementById('mediaPublished').checked = item ? item.isPublished : true;
+    
+    new bootstrap.Modal(document.getElementById('mediaModal')).show();
+  }
+
+  function editMedia(id) {
+    const item = allMedia.find(m => m._id === id);
+    if (item) openMediaModal(item);
+  }
+
+  async function handleSaveMedia(e) {
+    e.preventDefault();
+    const id = document.getElementById('mediaId').value;
+    const mediaFile = document.getElementById('mediaFile').files[0];
+
+    const formData = new FormData();
+    formData.append('title', document.getElementById('mediaTitle').value);
+    formData.append('type', document.getElementById('mediaType').value);
+    formData.append('description', document.getElementById('mediaDescription').value);
+    formData.append('category', document.getElementById('mediaCategory').value);
+    formData.append('siteLocation', document.getElementById('mediaSiteLocation').value);
+    formData.append('url', document.getElementById('mediaUrl').value);
+    formData.append('thumbnail', document.getElementById('mediaThumbnail').value);
+    formData.append('isPublished', document.getElementById('mediaPublished').checked);
+    
+    if (mediaFile) formData.append('file', mediaFile);
+
+    const endpoint = id ? `/api/media/${id}` : '/api/media';
+    const method = id ? 'PUT' : 'POST';
+
+    try {
+      const res = await fetch(endpoint, {
+        method,
+        headers: { 'Authorization': 'Bearer ' + token },
+        body: formData
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || 'Error saving media');
+      }
+
+      bootstrap.Modal.getInstance(document.getElementById('mediaModal')).hide();
+      loadMedia();
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
+  async function deleteMedia(id) {
+    if (!confirm('Delete this media item permanently?')) return;
+    try {
+      await fetch(`/api/media/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      loadMedia();
+    } catch (err) { alert('Error deleting media.'); }
+  }
+
+  // ── Services Rendering & CRUD ──
+  async function loadServices() {
+    try {
+      const res = await fetch('/api/services');
+      allServices = await res.json();
+      renderServices();
+    } catch (err) { console.error('Failed to load services:', err); }
+  }
+
+  function renderServices() {
+    const tbody = document.getElementById('servicesTableBody');
+    if (allServices.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-4">No services created yet.</td></tr>';
+      if (srvSortable) srvSortable.destroy();
+      return;
+    }
+
+    tbody.innerHTML = allServices.map(s => `
+      <tr data-id="${s._id}">
+        <td style="cursor: grab;" class="text-muted"><i class="bi bi-grip-vertical"></i></td>
+        <td>
+          ${s.image ? `<img src="${s.image}" class="img-preview" alt="">` : s.icon ? `<i class="${s.icon} fs-4"></i>` : '<span class="text-muted small">None</span>'}
+        </td>
+        <td><strong>${s.title}</strong><br><span class="small text-muted text-truncate d-inline-block" style="max-width:300px;">${s.description}</span></td>
+        <td><span class="badge ${s.isPublished ? 'bg-success' : 'bg-secondary'}">${s.isPublished ? 'Published' : 'Draft'}</span></td>
+        <td>
+          <button class="btn btn-sm btn-outline-primary me-1" onclick="editService('${s._id}')"><i class="bi bi-pencil"></i></button>
+          <button class="btn btn-sm btn-outline-danger" onclick="deleteService('${s._id}')"><i class="bi bi-trash"></i></button>
+        </td>
+      </tr>
+    `).join('');
+
+    if (srvSortable) srvSortable.destroy();
+    srvSortable = Sortable.create(tbody, {
+      animation: 150,
+      handle: '.bi-grip-vertical',
+      onEnd: async function () {
+        const rows = tbody.querySelectorAll('tr');
+        const orderMap = Array.from(rows).map((row, index) => ({ id: row.dataset.id, order: index }));
+        try {
+          await fetch('/api/services/reorder', {
+            method: 'PATCH',
+            headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json'},
+            body: JSON.stringify({ orderMap })
+          });
+          allServices.forEach(s => {
+            const mapped = orderMap.find(o => o.id === s._id);
+            if (mapped) s.order = mapped.order;
+          });
+          allServices.sort((a,b) => a.order - b.order);
+        } catch(err) {
+          console.error('Reorder failed', err);
+          loadServices();
+        }
+      }
+    });
+  }
+
+  function openServiceModal(item = null) {
+    document.getElementById('serviceForm').reset();
+    document.getElementById('serviceModalTitle').textContent = item ? 'Edit Service' : 'Add Service';
+    document.getElementById('serviceId').value = item ? item._id : '';
+    document.getElementById('serviceTitle').value = item ? item.title : '';
+    document.getElementById('serviceDescription').value = item ? item.description : '';
+    document.getElementById('serviceIcon').value = item ? (item.icon || '') : '';
+    document.getElementById('servicePublished').checked = item ? item.isPublished : true;
+    new bootstrap.Modal(document.getElementById('serviceModal')).show();
+  }
+
+  function editService(id) {
+    const item = allServices.find(s => s._id === id);
+    if (item) openServiceModal(item);
+  }
+
+  async function handleSaveService(e) {
+    e.preventDefault();
+    const id = document.getElementById('serviceId').value;
+    const formData = new FormData();
+    formData.append('title', document.getElementById('serviceTitle').value);
+    formData.append('description', document.getElementById('serviceDescription').value);
+    formData.append('icon', document.getElementById('serviceIcon').value);
+    formData.append('isPublished', document.getElementById('servicePublished').checked);
+    
+    const file = document.getElementById('serviceImageFile').files[0];
+    if (file) formData.append('imageFile', file);
+
+    try {
+      const res = await fetch(id ? `/api/services/${id}` : '/api/services', {
+        method: id ? 'PUT' : 'POST',
+        headers: { 'Authorization': 'Bearer ' + token },
+        body: formData
+      });
+      if (!res.ok) throw new Error((await res.json()).error);
+      bootstrap.Modal.getInstance(document.getElementById('serviceModal')).hide();
+      loadServices();
+    } catch(err) { alert(err.message); }
+  }
+
+  async function deleteService(id) {
+    if (!confirm('Delete service?')) return;
+    try {
+      const res = await fetch(`/api/services/${id}`, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token } });
+      if(!res.ok) throw new Error();
+      loadServices();
+    } catch(err) { alert('Error deleting service'); }
+  }
+
+  // ── Solutions Rendering & CRUD ──
+  async function loadSolutions() {
+    try {
+      const res = await fetch('/api/solutions');
+      allSolutions = await res.json();
+      renderSolutions();
+    } catch (err) { console.error('Failed to load solutions:', err); }
+  }
+
+  function renderSolutions() {
+    const tbody = document.getElementById('solutionsTableBody');
+    if (allSolutions.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-4">No solutions created yet.</td></tr>';
+      if (solSortable) solSortable.destroy();
+      return;
+    }
+
+    tbody.innerHTML = allSolutions.map(s => `
+      <tr data-id="${s._id}">
+        <td style="cursor: grab;" class="text-muted"><i class="bi bi-grip-vertical"></i></td>
+        <td>${s.image ? `<img src="${s.image}" class="img-preview" alt="">` : '<span class="text-muted small">None</span>'}</td>
+        <td><strong>${s.title}</strong><br><span class="small text-muted text-truncate d-inline-block" style="max-width:300px;">${s.description}</span></td>
+        <td><span class="badge ${s.isPublished ? 'bg-success' : 'bg-secondary'}">${s.isPublished ? 'Published' : 'Draft'}</span></td>
+        <td>
+          <button class="btn btn-sm btn-outline-primary me-1" onclick="editSolution('${s._id}')"><i class="bi bi-pencil"></i></button>
+          <button class="btn btn-sm btn-outline-danger" onclick="deleteSolution('${s._id}')"><i class="bi bi-trash"></i></button>
+        </td>
+      </tr>
+    `).join('');
+
+    if (solSortable) solSortable.destroy();
+    solSortable = Sortable.create(tbody, {
+      animation: 150,
+      handle: '.bi-grip-vertical',
+      onEnd: async function () {
+        const rows = tbody.querySelectorAll('tr');
+        const orderMap = Array.from(rows).map((row, index) => ({ id: row.dataset.id, order: index }));
+        try {
+          await fetch('/api/solutions/reorder', {
+            method: 'PATCH',
+            headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json'},
+            body: JSON.stringify({ orderMap })
+          });
+          allSolutions.forEach(s => {
+            const mapped = orderMap.find(o => o.id === s._id);
+            if (mapped) s.order = mapped.order;
+          });
+          allSolutions.sort((a,b) => a.order - b.order);
+        } catch(err) { console.error('Reorder failed', err); loadSolutions(); }
+      }
+    });
+  }
+
+  function openSolutionModal(item = null) {
+    document.getElementById('solutionForm').reset();
+    document.getElementById('solutionModalTitle').textContent = item ? 'Edit Solution' : 'Add Solution';
+    document.getElementById('solutionId').value = item ? item._id : '';
+    document.getElementById('solutionTitle').value = item ? item.title : '';
+    document.getElementById('solutionDescription').value = item ? item.description : '';
+    document.getElementById('solutionPublished').checked = item ? item.isPublished : true;
+    
+    const fc = document.getElementById('solutionFeaturesContainer');
+    fc.innerHTML = '';
+    const features = item && item.features ? item.features : [''];
+    features.forEach(f => addSolutionFeature(f));
+
+    new bootstrap.Modal(document.getElementById('solutionModal')).show();
+  }
+
+  function addSolutionFeature(val = '') {
+    const div = document.createElement('div');
+    div.className = 'feature-item';
+    div.innerHTML = `<input type="text" class="form-control form-control-sm" placeholder="Feature" value="${val.replace(/"/g, '&quot;')}"><button type="button" class="btn btn-sm btn-outline-danger" onclick="removeFeature(this)">×</button>`;
+    document.getElementById('solutionFeaturesContainer').appendChild(div);
+  }
+
+  function editSolution(id) {
+    const item = allSolutions.find(s => s._id === id);
+    if (item) openSolutionModal(item);
+  }
+
+  async function handleSaveSolution(e) {
+    e.preventDefault();
+    const id = document.getElementById('solutionId').value;
+    const body = new FormData();
+    body.append('title', document.getElementById('solutionTitle').value);
+    body.append('description', document.getElementById('solutionDescription').value);
+    body.append('isPublished', document.getElementById('solutionPublished').checked);
+    
+    const fInputs = document.querySelectorAll('#solutionFeaturesContainer input');
+    const features = Array.from(fInputs).map(i => i.value.trim()).filter(Boolean);
+    body.append('features', JSON.stringify(features));
+
+    const file = document.getElementById('solutionImageFile').files[0];
+    if (file) body.append('imageFile', file);
+
+    try {
+      const res = await fetch(id ? `/api/solutions/${id}` : '/api/solutions', {
+        method: id ? 'PUT' : 'POST',
+        headers: { 'Authorization': 'Bearer ' + token },
+        body
+      });
+      if (!res.ok) throw new Error((await res.json()).error);
+      bootstrap.Modal.getInstance(document.getElementById('solutionModal')).hide();
+      loadSolutions();
+    } catch(err) { alert(err.message); }
+  }
+
+  async function deleteSolution(id) {
+    if (!confirm('Delete solution?')) return;
+    try {
+      await fetch(`/api/solutions/${id}`, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token } });
+      loadSolutions();
+    } catch(err) { alert('Error deleting solution'); }
+  }
+
+  // ── About Us ──
+  async function loadAboutUs() {
+    try {
+      const res = await fetch('/api/about');
+      if(res.ok) {
+        aboutData = await res.json();
+        document.getElementById('aboutCompanyName').value = aboutData.companyName || '';
+        document.getElementById('aboutTagline').value = aboutData.tagline || '';
+        document.getElementById('aboutMission').value = aboutData.mission || '';
+        document.getElementById('aboutVision').value = aboutData.vision || '';
+        document.getElementById('aboutDescription').value = aboutData.description || '';
+        document.getElementById('aboutTeamJson').value = JSON.stringify(aboutData.teamMembers || [], null, 2);
+        document.getElementById('aboutImagesList').value = (aboutData.images || []).join('\n');
+        
+        const statsC = document.getElementById('aboutStatsContainer');
+        statsC.innerHTML = '';
+        (aboutData.stats || []).forEach(st => addAboutStat(st.value, st.label));
+      }
+    } catch(err) { console.error('Error loading AboutUs', err); }
+  }
+
+  function addAboutStat(val = '', lbl = '') {
+    const div = document.createElement('div');
+    div.className = 'd-flex gap-2 mb-2 align-items-center';
+    div.innerHTML = `
+      <input type="text" class="form-control form-control-sm w-25" placeholder="Value (e.g. 1500+)" value="${val}">
+      <input type="text" class="form-control form-control-sm" placeholder="Label (e.g. Sites completed)" value="${lbl}">
+      <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.parentElement.remove()">×</button>
+    `;
+    document.getElementById('aboutStatsContainer').appendChild(div);
+  }
+
+  async function saveAboutUs() {
+    try {
+      const statsRows = document.querySelectorAll('#aboutStatsContainer > div');
+      const stats = Array.from(statsRows).map(row => {
+        const ins = row.querySelectorAll('input');
+        return { value: ins[0].value, label: ins[1].value };
+      }).filter(s => s.value || s.label);
+
+      let teamMembers = [];
+      try {
+        const teamStr = document.getElementById('aboutTeamJson').value.trim();
+        if(teamStr) teamMembers = JSON.parse(teamStr);
+      } catch(e) { throw new Error('Invalid JSON in Team Members field'); }
+
+      const images = document.getElementById('aboutImagesList').value.split('\n').map(s => s.trim()).filter(Boolean);
+
+      const payload = {
+        companyName: document.getElementById('aboutCompanyName').value,
+        tagline: document.getElementById('aboutTagline').value,
+        mission: document.getElementById('aboutMission').value,
+        vision: document.getElementById('aboutVision').value,
+        description: document.getElementById('aboutDescription').value,
+        stats,
+        teamMembers,
+        images
+      };
+
+      const res = await fetch('/api/about', {
+        method: 'PUT',
+        headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if(!res.ok) throw new Error((await res.json()).error);
+      alert('About Us saved successfully!');
+    } catch(err) { alert('Error saving About Us: ' + err.message); }
+  }
+
+  // ── Site Settings ──
+  async function loadSiteSettings() {
+    try {
+      const res = await fetch('/api/settings');
+      if (res.ok) {
+        settingsData = await res.json();
+        document.getElementById('setWhatsappNumber').value = settingsData.whatsappNumber || '';
+        document.getElementById('setWhatsappMessage').value = settingsData.whatsappMessage || '';
+        document.getElementById('setEnableWhatsAppButton').checked = !!settingsData.enableWhatsAppButton;
+        document.getElementById('setEnableGlobalBanner').checked = !!settingsData.enableGlobalBanner;
+        document.getElementById('setBannerContent').value = settingsData.bannerContent || '';
+      }
+    } catch(err) { console.error('Error loading settings', err); }
+  }
+
+  async function saveSiteSettings() {
+    try {
+      const payload = {
+        whatsappNumber: document.getElementById('setWhatsappNumber').value,
+        whatsappMessage: document.getElementById('setWhatsappMessage').value,
+        enableWhatsAppButton: document.getElementById('setEnableWhatsAppButton').checked,
+        enableGlobalBanner: document.getElementById('setEnableGlobalBanner').checked,
+        bannerContent: document.getElementById('setBannerContent').value
+      };
+
+      const res = await fetch('/api/settings', {
+        method: 'PUT',
+        headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if(!res.ok) throw new Error((await res.json()).error);
+      alert('Settings saved successfully!');
+    } catch(err) { alert('Error saving settings: ' + err.message); }
+  }
+</script>
+</body>
+</html>

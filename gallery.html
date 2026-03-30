@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Media Gallery – VIYU TECHNOLOGIES LLP</title>
+  <meta name="description" content="View our latest projects, site photos, and promotional videos from VIYU TECHNOLOGIES LLP.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="assets/images/viyu_logo.jpg-removebg-preview.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <style>
+    .gallery-filter-btn { border-radius: 20px; transition: all 0.3s ease; margin-bottom: 0.5rem; }
+    .gallery-filter-btn.active { background-color: var(--primary-color, #0d6efd); color: white; border-color: var(--primary-color, #0d6efd); }
+    .gallery-card { border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.3s ease; cursor: pointer; height: 100%; border: none; }
+    .gallery-card:hover { transform: translateY(-5px); }
+    .gallery-img-wrapper { position: relative; width: 100%; padding-top: 66.66%; /* 3:2 Aspect Ratio */ background-color: #f8f9fa; }
+    .gallery-img-wrapper img, .gallery-img-wrapper iframe, .gallery-img-wrapper video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .video-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; z-index: 2; pointer-events: none; }
+    .video-overlay i { font-size: 3rem; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    .gallery-info { padding: 1rem; }
+    #lightboxModal .modal-body { padding: 0; background: #000; display: flex; align-items: center; justify-content: center; min-height: 50vh; }
+    #lightboxModal img, #lightboxModal video, #lightboxModal iframe { max-width: 100%; max-height: 80vh; border-radius: 4px; width: 100%; }
+    .gallery-loading { display: flex; justify-content: center; padding: 4rem 0; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="bg-white shadow-sm sticky-top">
+  <nav class="navbar navbar-expand-md navbar-light bg-white" aria-label="Main navigation">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img src="assets/images/viyu_logo.jpg-removebg-preview.png" alt="VIYU Technologies LLP Logo" class="me-2" style="height:60px; width: auto; max-width: 180px;">
+        <span class="fw-bold d-none d-sm-inline" style="letter-spacing:0.06em; font-size: 1rem;">VIYU TECHNOLOGIES LLP</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+          <li class="nav-item"><a class="nav-link px-2" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link px-2" href="about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link px-2" href="services.html">Services</a></li>
+          <li class="nav-item"><a class="nav-link px-2" href="solutions.html">Solutions</a></li>
+          <li class="nav-item"><a class="nav-link px-2" href="product.html">Products</a></li>
+          <li class="nav-item"><a class="nav-link px-2 active" href="gallery.html">Gallery</a></li>
+          <li class="nav-item"><a class="nav-link px-2" href="contact.html">Contact Us</a></li>
+          <li class="nav-item ms-lg-3">
+            <a href="tel:+917785931010" class="btn btn-sm btn-outline-dark"><i class="bi bi-telephone"></i> <span class="d-none d-md-inline">Call</span></a>
+          </li>
+          <li class="nav-item ms-2">
+            <a href="https://wa.me/+917785931010" class="btn btn-sm btn-primary"><i class="bi bi-whatsapp"></i> <span class="d-none d-md-inline">WhatsApp</span></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<div class="bg-light py-5">
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col-12 text-center">
+        <h1 class="display-5 fw-bold mb-3">Project Gallery</h1>
+        <p class="lead text-muted">A showcase of our installations, product demonstrations, and project sites.</p>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="row mb-4">
+      <div class="col-12 d-flex flex-wrap justify-content-center gap-2" id="galleryFilters">
+        <button class="btn btn-outline-secondary gallery-filter-btn active" data-filter="all">All Items</button>
+        <button class="btn btn-outline-secondary gallery-filter-btn" data-filter="photo">Photos</button>
+        <button class="btn btn-outline-secondary gallery-filter-btn" data-filter="video">Videos</button>
+        <!-- Dynamic Category Filters Will Append Here -->
+      </div>
+    </div>
+
+    <!-- Gallery Grid -->
+    <div class="row g-4" id="galleryGrid">
+      <div class="col-12 gallery-loading">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Lightbox Modal -->
+<div class="modal fade" id="lightboxModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content border-0 bg-transparent">
+      <div class="modal-header border-0 pb-0 position-absolute w-100 z-3">
+        <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="modal" aria-label="Close" style="filter: drop-shadow(0 0 2px black);"></button>
+      </div>
+      <div class="modal-body" id="lightboxContent">
+        <!-- Media injected here -->
+      </div>
+      <div class="modal-footer border-0 px-4 pb-4 pt-2 bg-dark text-white rounded-bottom" id="lightboxFooter">
+        <h5 id="lightboxTitle" class="mb-1 w-100"></h5>
+        <p id="lightboxDescription" class="mb-0 fs-6 w-100 text-light opacity-75"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer mt-5 bg-dark">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <h5 class="text-white mb-2">VIYU TECHNOLOGIES LLP</h5>
+          <p class="small mb-2">
+            End-to-end home automation, security systems, and smart infrastructure solutions for homes, businesses and
+            institutions across India.
+          </p>
+          <div class="d-flex flex-wrap gap-1">
+            <span class="badge-soft">Home Automation</span>
+            <span class="badge-soft">CCTV</span>
+            <span class="badge-soft">Access Control</span>
+            <span class="badge-soft">Fire Safety</span>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <h6 class="text-white mb-2">Quick Links</h6>
+          <ul class="list-unstyled small mb-0">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="solutions.html">Solutions</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div class="col-md-4">
+          <h6 class="text-white mb-2">Contact</h6>
+          <p class="small mb-1">
+            Phone: <a href="tel:+917785931010">+91-7785931010</a><br>
+            WhatsApp: <a href="https://wa.me/917785931010">Chat on WhatsApp</a><br>
+            Email: <a href="mailto:info@viyutech.in">info@viyutech.in</a>
+          </p>
+          <p class="small mb-1">
+            Address: C-48/1, Kurmanchal Nagar, Indira Nagar, Lucknow, Uttar Pradesh, India - 226016
+          </p>
+          <p class="small mb-0">
+            Mon – Sat: 9:30 AM – 7:00 PM
+          </p>
+        </div>
+      </div>
+
+      <hr class="border-secondary mt-4 mb-2">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center small">
+        <div>© <span id="year"></span> VIYU TECHNOLOGIES LLP. All rights reserved. (Made by -<a
+            href="https://gopalsingh.netlify.app/" target="_blank">Gopal Singh </a>with ❤️ )</div>
+
+        <div class="mt-2 mt-md-0">
+          <a href="faq.html">FAQs</a> ● <a href="terms.html">Terms &amp; Conditions</a> ● <a href="privacy.html">Privacy
+            Policy</a>
+        </div>
+
+
+      </div>
+    </div>
+  </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/api.js"></script>
+<script>
+  let allMediaItems = [];
+  let currentFilter = 'all';
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      allMediaItems = await ViyuAPI.fetchMedia();
+      buildDynamicFilters();
+      renderGallery();
+      setupFilterListeners();
+    } catch (err) {
+      document.getElementById('galleryGrid').innerHTML = '<div class="col-12 text-center py-5 text-danger">Failed to load media gallery.</div>';
+    }
+  });
+
+  // Extract unique categories and append to filters
+  function buildDynamicFilters() {
+    const filtersContainer = document.getElementById('galleryFilters');
+    const categories = new Set();
+    allMediaItems.forEach(item => {
+      if (item.category && item.category.trim() !== '') {
+        categories.add(item.category.trim());
+      }
+    });
+
+    categories.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-outline-secondary gallery-filter-btn';
+      btn.setAttribute('data-filter', 'category-' + cat);
+      btn.textContent = cat;
+      filtersContainer.appendChild(btn);
+    });
+  }
+
+  function setupFilterListeners() {
+    const btns = document.querySelectorAll('.gallery-filter-btn');
+    btns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        btns.forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        currentFilter = e.target.getAttribute('data-filter');
+        renderGallery();
+      });
+    });
+  }
+
+  function renderGallery() {
+    const grid = document.getElementById('galleryGrid');
+    
+    let filtered = allMediaItems;
+    if (currentFilter === 'photo') {
+      filtered = allMediaItems.filter(m => m.type === 'photo');
+    } else if (currentFilter === 'video') {
+      filtered = allMediaItems.filter(m => m.type === 'video');
+    } else if (currentFilter.startsWith('category-')) {
+      const cat = currentFilter.replace('category-', '');
+      filtered = allMediaItems.filter(m => m.category === cat);
+    }
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '<div class="col-12 text-center py-5 text-muted">No media found for this filter.</div>';
+      return;
+    }
+
+    grid.innerHTML = filtered.map(item => {
+      let previewHtml = '';
+      if (item.type === 'photo') {
+        previewHtml = `<img src="${item.url}" alt="${item.title}" loading="lazy">`;
+      } else {
+        // Video
+        const thumbStr = item.thumbnail ? `<img src="${item.thumbnail}" alt="thumbnail" loading="lazy">` : `<img src="assets/images/placeholder-video.svg" alt="video" loading="lazy">`;
+        previewHtml = `${thumbStr}<div class="video-overlay"><i class="bi bi-play-circle-fill"></i></div>`;
+      }
+
+      return `
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <div class="card gallery-card" onclick="openLightbox('${item._id}')">
+            <div class="gallery-img-wrapper">
+              ${previewHtml}
+            </div>
+            <div class="gallery-info bg-white border-top">
+              <h6 class="mb-1 text-truncate">${item.title}</h6>
+              ${item.siteLocation ? `<p class="small text-muted mb-0"><i class="bi bi-geo-alt me-1"></i>${item.siteLocation}</p>` : ''}
+              ${item.category ? `<span class="badge bg-light text-dark border mt-2">${item.category}</span>` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function getYouTubeId(url) {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : null;
+  }
+
+  const lightboxModal = new bootstrap.Modal(document.getElementById('lightboxModal'));
+  const lightboxContent = document.getElementById('lightboxContent');
+  const lightboxTitle = document.getElementById('lightboxTitle');
+  const lightboxDesc = document.getElementById('lightboxDescription');
+
+  // Stop video when modal closes
+  document.getElementById('lightboxModal').addEventListener('hidden.bs.modal', () => {
+    lightboxContent.innerHTML = ''; 
+  });
+
+  function openLightbox(id) {
+    const item = allMediaItems.find(m => m._id === id);
+    if (!item) return;
+
+    lightboxTitle.textContent = item.title;
+    lightboxDesc.textContent = item.description || (item.siteLocation ? 'Location: ' + item.siteLocation : '');
+
+    if (item.type === 'photo') {
+      lightboxContent.innerHTML = `<img src="${item.url}" alt="${item.title}">`;
+    } else {
+      // Is YouTube?
+      const ytId = getYouTubeId(item.url);
+      if (ytId) {
+        lightboxContent.innerHTML = `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+      } else {
+        // HTML5 Video
+        lightboxContent.innerHTML = `<video controls autoplay class="w-100"><source src="${item.url}" type="video/mp4">Your browser does not support the video tag.</video>`;
+      }
+    }
+    lightboxModal.show();
+  }
+</script>
+<script src="assets/js/floating-icons.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+/* ========== HERO MODERN ========== */
+.hero-modern {
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(to right, rgba(15,23,42,0.9), rgba(15,23,42,0.5)),
+              url("../images/walkietalki.jpeg") center/cover no-repeat;
+  color: #f9fafb;
+}
+
+.hero-title { font-size: 2.4rem; font-weight: 700; letter-spacing: 0.01em; }
+.hero-product-img {
+  max-height: 480px;
+  border-radius: 5%;
+  object-fit: cover;
+  filter: drop-shadow(0 20px 40px rgba(15,23,42,0.65));
+}
+
+.hero-product-panel {
+  position: relative;
+  border-radius: 18px;
+  padding: 24px 22px 22px;
+  overflow: hidden;
+  background: linear-gradient(120deg, #020617, #f30717, #111827, #020617);
+  background-size: 300% 300%;
+  animation: heroPanelBgShift 18s ease-in-out infinite;
+}
+.hero-product-panel::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: inherit;
+  background: rgba(15,23,42,0.98);
+  z-index: -1;
+}
+
+@keyframes heroPanelBgShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ========== SERVICES AREA ========== */
+.services-area { position: relative; overflow: hidden; }
+.services-area::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 15% 20%, rgba(37,99,235,0.18) 0, transparent 55%),
+              radial-gradient(circle at 85% 10%, rgba(56,189,248,0.20) 0, transparent 55%),
+              radial-gradient(circle at 10% 100%, rgba(52,211,153,0.18) 0, transparent 55%);
+  animation: servicesGlow 10s ease-in-out infinite alternate;
+  z-index: 0;
+}
+@keyframes servicesGlow {
+  0% { transform: translate3d(0,0,0) scale(1); }
+  50% { transform: translate3d(-20px,12px,0) scale(1.05); }
+  100% { transform: translate3d(20px,-10px,0) scale(1.03); }
+}
+
+/* ========== INDUSTRIES ========== */
+#industries { position: relative; overflow: hidden; }
+#industries::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 10% 20%, rgba(27,166,166,0.12) 0, transparent 55%),
+              radial-gradient(circle at 90% 80%, rgba(255,138,92,0.12) 0, transparent 55%);
+  animation: industriesGlow 12s ease-in-out infinite alternate;
+  z-index: 0;
+}
+
+/* ========== ENQUIRY ========== */
+#home-enquiry { position: relative; overflow: hidden; }
+#home-enquiry::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 0% 0%, rgba(27,166,166,0.12) 0, transparent 55%),
+              radial-gradient(circle at 100% 100%, rgba(255,138,92,0.10) 0, transparent 55%);
+  animation: enquiryDrift 14s ease-in-out infinite alternate;
+  z-index: 0;
+}
