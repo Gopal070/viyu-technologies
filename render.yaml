@@ -3,23 +3,35 @@ services:
     name: viyu-technologies
     env: node
     plan: free
-    region: singapore # Choose the region closest to your users
+    region: singapore
+    # Use 'cd backend' since package.json is in the backend folder
     buildCommand: cd backend && npm install
-    startCommand: cd backend && npm start
+    # Start the server using node
+    startCommand: node backend/server.js
     envVars:
       - key: NODE_VERSION
         value: 20
       - key: PORT
         value: 10000
+      - key: NODE_ENV
+        value: production
       - key: MONGO_URI
-        sync: false # User must provide this in Render Dashboard
-      - key: JWT_SECRET
-        generateValue: true # Generates a secure random string automatically
-      - key: EMAIL_USER
         sync: false
-      - key: EMAIL_PASS
+      - key: JWT_SECRET
+        sync: false
+      - key: ADMIN_USERNAME
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: EMAIL_ENABLED
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
         sync: false
       - key: ADMIN_EMAIL
         sync: false
-      - key: NODE_ENV
-        value: production
